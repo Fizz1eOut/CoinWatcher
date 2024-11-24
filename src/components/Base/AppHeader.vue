@@ -33,16 +33,14 @@ onBeforeUnmount(() => {
   <div class="header">
     <app-container>
       <div class="header__body">
-        <div class="header__wrapper">
-          <div class="header__img">
-            <router-link to="/">
-              <img src="../../assets/images/logo.png" alt="Logo">
-            </router-link>
-          </div>
-
-          <app-nav v-if="!isMobile" class="nav" />
-          <!-- <app-nav-mobile v-if="isMobile" class="nav-mobile" /> -->
+        <div class="header__img">
+          <router-link to="/">
+            <img src="../../assets/images/logo.png" alt="Logo">
+          </router-link>
         </div>
+
+        <app-nav v-if="!isMobile" class="nav" />
+        <app-nav-mobile v-if="isMobile" class="nav-mobile" />
       </div>
     </app-container>
   </div>
@@ -54,17 +52,5 @@ onBeforeUnmount(() => {
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-  }
-  .header__wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 400px;
-    width: 100%;
-  }
-  @media (max-width: 768px) {
-    .header__wrapper {
-      max-width: 100%;
-    }
   }
 </style>

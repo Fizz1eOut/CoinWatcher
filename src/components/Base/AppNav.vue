@@ -14,17 +14,41 @@ import AppLink from '@/components/Base/AppLink.vue';
       </div>
 
       <div class="nav__item">
-        <router-link to="/series">
+        <router-link to="">
           <app-link>
-            Series
+            Coins
           </app-link>
         </router-link>
       </div>
 
       <div class="nav__item">
-        <router-link to="/cartoons">
+        <router-link to="">
           <app-link>
-            Cartoons
+            Exchangers
+          </app-link>
+        </router-link>
+      </div>
+
+      <div class="nav__item">
+        <router-link to="">
+          <app-link>
+            Favorites
+          </app-link>
+        </router-link>
+      </div>
+
+      <div class="nav__item">
+        <router-link to="">
+          <app-link>
+            Comparison
+          </app-link>
+        </router-link>
+      </div>
+
+      <div class="nav__item">
+        <router-link to="">
+          <app-link>
+            News
           </app-link>
         </router-link>
       </div>

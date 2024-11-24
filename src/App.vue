@@ -5,7 +5,9 @@ import AppContainer from '@/components/Base/AppContainer.vue';
 </script>
 
 <template>
-  <app-header />
+  <header>
+    <app-header />
+  </header>
 
   <main>
     <app-container>
@@ -13,7 +15,9 @@ import AppContainer from '@/components/Base/AppContainer.vue';
     </app-container>
   </main>
 
-  <app-footer />
+  <footer>
+    
+  </footer>
 </template>
 
 
