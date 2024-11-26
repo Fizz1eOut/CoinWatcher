@@ -14,11 +14,9 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 100%;
+  color: var(--color-white);
   transition: background 0.3s ease-in-out;
   cursor: pointer;
-  background: var(--color-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .link:hover {

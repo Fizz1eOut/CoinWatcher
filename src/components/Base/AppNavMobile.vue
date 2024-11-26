@@ -34,15 +34,6 @@ import AppLink from '@/components/Base/AppLink.vue';
         </div>
 
         <div class="nav-mobile__item">
-          <router-link to="">
-            <app-link class="nav-mobile__link">
-              <!-- <app-favorites /> -->
-              Favorites
-            </app-link>
-          </router-link>
-        </div>
-
-        <div class="nav-mobile__item">
           <router-link to="            ">
             <app-link class="nav-mobile__link">
               <!-- <app-favorites /> -->
@@ -56,6 +47,15 @@ import AppLink from '@/components/Base/AppLink.vue';
             <app-link class="nav-mobile__link">
               <!-- <app-favorites /> -->
               News
+            </app-link>
+          </router-link>
+        </div>
+
+        <div class="nav-mobile__item">
+          <router-link to="">
+            <app-link class="nav-mobile__link">
+              <!-- <app-favorites /> -->
+              Favorites
             </app-link>
           </router-link>
         </div>

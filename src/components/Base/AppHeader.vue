@@ -1,31 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import AppContainer from '@/components/Base/AppContainer.vue';
-import AppNav from '@/components/Base/AppNav.vue';
-import AppNavMobile from '@/components/Base/AppNavMobile.vue';
+import { ref } from 'vue';
+  import AppContainer from '@/components/Base/AppContainer.vue';
+  import AppFavorites from '@/components/Base/AppFavorites.vue';
+  import AppInput from '@/components/Inputs/AppInput.vue';
 
-const mediaQueryList = window.matchMedia('(max-width: 768px)');
-
-const isMobile = ref(false);
-
-// Метод для обработки изменений медиазапроса
-const handleMediaChange = (event: MediaQueryListEvent | MediaQueryList) => {
-  isMobile.value = event.matches;
-};
-
-// Хуки жизненного цикла
-onMounted(() => {
-  // Инициализация состояния isMobile
-  handleMediaChange(mediaQueryList);
-
-  // Подписка на изменения медиазапроса
-  mediaQueryList.addEventListener('change', handleMediaChange);
-});
-
-onBeforeUnmount(() => {
-  // Отписка от слушателя медиазапроса
-  mediaQueryList.removeEventListener('change', handleMediaChange);
-});
+  const text = ref<string | number>('');
 </script>
 
 
@@ -39,18 +18,33 @@ onBeforeUnmount(() => {
           </router-link>
         </div>
 
-        <app-nav v-if="!isMobile" class="nav" />
-        <app-nav-mobile v-if="isMobile" class="nav-mobile" />
+        <div class="header__input">
+          <app-input placeholder="BTC" v-model="text" />
+        </div>
+
+        <div class="header__favorites favorites">
+          <router-link to="/favorites">
+            <app-favorites />
+          </router-link>
+        </div>
       </div>
     </app-container>
   </div>
 </template>
 
 <style scoped>
-.header__body {
+  .header__body {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+  }
+  .header__img {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    .header__img {
+    display: block;
+  }
   }
 </style>

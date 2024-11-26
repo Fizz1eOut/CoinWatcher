@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppLink from '@/components/Base/AppLink.vue';
+  import AppLink from '@/components/Base/AppLink.vue';
 </script>
 
 <template>
@@ -14,7 +14,7 @@ import AppLink from '@/components/Base/AppLink.vue';
       </div>
 
       <div class="nav__item">
-        <router-link to="">
+        <router-link to="/coins">
           <app-link>
             Coins
           </app-link>
@@ -22,7 +22,23 @@ import AppLink from '@/components/Base/AppLink.vue';
       </div>
 
       <div class="nav__item">
-        <router-link to="">
+        <router-link to="/defi">
+          <app-link>
+            DeFi
+          </app-link>
+        </router-link>
+      </div>
+
+      <div class="nav__item">
+        <router-link to="/trendingCoins">
+          <app-link>
+            Trending coins
+          </app-link>
+        </router-link>
+      </div>
+
+      <div class="nav__item">
+        <router-link to="/exchangers">
           <app-link>
             Exchangers
           </app-link>
@@ -30,15 +46,15 @@ import AppLink from '@/components/Base/AppLink.vue';
       </div>
 
       <div class="nav__item">
-        <router-link to="">
+        <router-link to="/converter">
           <app-link>
-            Favorites
+            Converter
           </app-link>
         </router-link>
       </div>
 
       <div class="nav__item">
-        <router-link to="">
+        <router-link to="/comparison">
           <app-link>
             Comparison
           </app-link>
@@ -46,7 +62,7 @@ import AppLink from '@/components/Base/AppLink.vue';
       </div>
 
       <div class="nav__item">
-        <router-link to="">
+        <router-link to="/news">
           <app-link>
             News
           </app-link>
@@ -58,11 +74,10 @@ import AppLink from '@/components/Base/AppLink.vue';
 
 
 <style scoped>
-  .nav__body {
-    display: flex;
-    align-items: center;
-    gap: 30px;
+  .nav__body >*:not(:last-child){
+    margin-bottom: 20px;
   }
+
   .router-link-active .link {
     transition: background 0.3s ease-in-out;
     cursor: pointer;
