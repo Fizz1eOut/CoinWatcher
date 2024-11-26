@@ -1,9 +1,9 @@
 <script setup lang="ts">
-
+  import GlobalMarketInfo from '@/components/Content/GlobalMarketInfo.vue';
 </script>
 
 <template>
- Hello world
+ <global-market-info />
 </template>
 
 <style scoped>
