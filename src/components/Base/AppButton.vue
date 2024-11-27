@@ -4,19 +4,19 @@
   // Определение пропсов с типизацией
   const props = defineProps<{
     gradient?: boolean;
-    ordinary?: boolean;
+    outline?: boolean;
     disabled?: boolean;
   }>();
 
   // Значения по умолчанию
   const gradient = props.gradient ?? false;
-  const ordinary = props.ordinary ?? false;
+  const outline = props.outline ?? false;
   const disabled = props.disabled ?? false;
 
   // Вычисляемый класс
   const classes = computed(() => ({
     'button-gradient': gradient,
-    'button-ordinary': ordinary,
+    'button-outline': outline,
     'button-disabled': disabled,
   }));
 </script>
@@ -34,6 +34,19 @@
 
 <style scoped>
   .button {
+    width: 100%;
+    height: 100%;
+    color: var(--color-white);
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 0;
+    border: none;
+    padding: 0;
+  }
+  .button:hover {
+    background-color: transparent
+  }
+  .button-outline {
     padding: 16px 0;
     width: 100%;
     height: 100%;
@@ -50,7 +63,7 @@
     transition: background-color 0.3s ease-in-out;
     cursor: pointer;
   }
-  .button:hover {
+  .button-outline:hover {
     background-color: var(--color-blue);
   }
   .button-gradient {
@@ -66,19 +79,6 @@
   }
   .button-gradient:hover {
     background: var(--color-gradient-hover);
-  }
-  .button-ordinary {
-    width: 100%;
-    height: 100%;
-    color: var(--color-white);
-    background-color: transparent;
-    cursor: pointer;
-    border-radius: 0;
-    border: none;
-    padding: 0;
-  }
-  .button-ordinary:hover {
-    background-color: transparent
   }
   .button-disabled {
     background-color: var(--color-grey);

@@ -5,7 +5,7 @@ import IconFavorites from '@/components/Icons/IconFavorites.vue';
 
 <template>
   <div class="favorites">
-    <app-button class="search__button" ordinary>
+    <app-button class="search__button">
       <icon-favorites class="icon-favorites" />
       <span class="favorites__quantity">0</span>
     </app-button>
