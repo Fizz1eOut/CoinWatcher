@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
-import AppHeader from '@/components/Base/AppHeader.vue';
-import AppContainer from '@/components/Base/AppContainer.vue';
-import AppSidebarNav from '@/components/Base/AppSidebarNav.vue';
+  import { RouterView } from 'vue-router';
+  import AppHeader from '@/components/Base/AppHeader.vue';
+  import AppContainer from '@/components/Base/AppContainer.vue';
+  import AppSidebarNav from '@/components/Base/AppSidebarNav.vue';
 </script>
 
 <template>
@@ -22,10 +22,5 @@ import AppSidebarNav from '@/components/Base/AppSidebarNav.vue';
   </footer>
 </template>
 
-
 <style scoped>
-  .app-layout {
-    display: flex;
-    gap: 10px;
-  }
 </style>
