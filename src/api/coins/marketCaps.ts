@@ -1,22 +1,5 @@
 import { fetchData } from '@/components/modules/http';
-
-// Интерфейс для описания структуры данных исторических данных для одной криптовалюты
-interface HistoricalData {
-  time: number; // Время (timestamp) для этого дня
-  close: number; // Цена закрытия
-  high: number;  // Максимальная цена
-  low: number;   // Минимальная цена
-  open: number;  // Цена открытия
-  volumefrom: number; // Объем торговли в валюте исходной криптовалюты
-  volumeto: number;   // Объем торговли в валюте назначения (например, USD)
-  market_cap?: number; // Рыночная капитализация (опционально)
-}
-
-// Интерфейс для описания объекта с историческими данными для одной криптовалюты
-interface MarketCapEntry {
-  symbol: string; // Символ криптовалюты (например, 'BTC', 'ETH')
-  history: HistoricalData[]; // Исторические данные для этой криптовалюты
-}
+import type { HistoricalData, MarketCapEntry } from '@/interface/marketCaps.interface'
 
 // Функция для получения исторических данных по отдельным криптовалютам
 // symbols - массив символов криптовалют, для которых нужно получить данные
