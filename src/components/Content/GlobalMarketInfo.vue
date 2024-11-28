@@ -8,6 +8,7 @@
   import type { TopCoinsResponse } from '@/interface/topCoins.interface';
 
   const topCoinsSymbols = ref<string[]>([]);
+  const isLoading = ref<boolean>(true);
 
   // Функция для запроса рыночной информации и вывода данных в консоль
   const fetchMarketData = async () => {
@@ -63,13 +64,22 @@
     }
   };
 
-  // Вызываем функцию при монтировании компонента
   onMounted(async () => {
-    await fetchMarketData();
-    await fetchTopCoins();
-    await fetchGlobalMarketCap();
-    await fetchTrendingCoins();
-    await fetchNews();
+    try {
+      // Выполняем сначала fetchTopCoins, чтобы получить список символов криптовалют
+      await fetchTopCoins();
+      // Теперь вызываем fetchGlobalMarketCap, который зависит от topCoinsSymbols.value
+      await Promise.all([
+        fetchMarketData(),
+        fetchGlobalMarketCap(), // Теперь будет выполняться после fetchTopCoins
+        fetchTrendingCoins(),
+        fetchNews(),
+      ]);
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
+      isLoading.value = false; // Сбрасываем флаг загрузки после завершения всех запросов
+    }
   });
 </script>
 
