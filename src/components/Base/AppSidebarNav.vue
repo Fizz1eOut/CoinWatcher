@@ -22,12 +22,9 @@
 
 <style scoped>
   .sidebar-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
     max-width: 200px;
     width: 100%;
-    height: 100%;
+    height: 100vh;
   }
   .sidebar-nav__img {
     margin-bottom: 40px;

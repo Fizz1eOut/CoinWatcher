@@ -6,10 +6,13 @@
 </script>
 
 <template>
-  <app-sidebar-nav />
-  <header>
-    <app-header />
-  </header>
+  <div class="app">
+    <app-sidebar-nav />
+
+  <div class="wrapper">
+    <header>
+      <app-header />
+    </header>
 
     <main>
       <app-container>
@@ -17,10 +20,20 @@
       </app-container>
     </main>
 
-  <footer>
-    
-  </footer>
+    <footer>
+      
+    </footer>
+  </div>
+  </div>
 </template>
 
 <style scoped>
+  .app {
+    display: flex;
+    gap: 10px;
+  }
+  .wrapper {
+    width: 100%;
+    max-width: 1280px;
+  }
 </style>
