@@ -44,18 +44,18 @@ const chartOptions = computed(() => ({
     borderColor: '#e7e7e7', // Цвет сетки
     strokeDashArray: 4, // Тип линии сетки (пунктир)
   },
-  colors: ['#4caf50'], // Цвет линии графика
+  colors: ['#EDB60B'], // Цвет линии графика
   stroke: {
     curve: 'smooth', // Гладкость линии
     width: 3, // Толщина линии
   },
   markers: {
     size: 5, // Размер маркеров на графике
-    colors: ['#4caf50'], // Цвет маркеров
+    colors: ['#EDB60B'], // Цвет маркеров
     strokeWidth: 2, // Толщина границы маркеров
   },
   title: {
-    text: `График ${props.coinName}`,
+    text: `Chart of historical capitalization`,
     align: 'center',
     style: {
       fontSize: '16px',

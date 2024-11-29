@@ -72,6 +72,7 @@ body {
 :root {
   --color-white: #FFFFFF;
   --color-blue: #1FB9EE;
+  --color-yellow: #EDB60B;
   --color-gradient: linear-gradient(90deg, #1fb9ee 0%, #8b43d8 100%);
   --color-gradient-hover: linear-gradient(90deg, #41acca 0%, #b573ff 100%);
   --color-background: #141627;
