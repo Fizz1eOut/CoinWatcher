@@ -5,9 +5,14 @@
   import { getHistoricalMarketCaps } from '@/api/coins/marketCaps';
   import { getTrendingCoins } from '@/api/coins/trendingCoins';
   import { getNews } from '@/api/coins/news';
-  import type { TopCoinsResponse } from '@/interface/topCoins.interface';
+  import type { TopCoinsResponse, TopCoin } from '@/interface/topCoins.interface';
+  import type { MarketCapEntry } from '@/interface/marketCaps.interface';
+  import TopCoinsDashboard from '@/components/Content/TopCoinsDashboard.vue';
 
-  const topCoinsSymbols = ref<string[]>([]);
+  // Топ-10 криптовалют
+  const topCoins = ref<TopCoin[]>([]);
+  // Исторические данные по криптовалютам
+  const historicalData = ref<MarketCapEntry[]>([]);
   const isLoading = ref<boolean>(true);
 
   // Функция для запроса рыночной информации и вывода данных в консоль
@@ -20,27 +25,28 @@
     }
   };
 
+  // Функция для получения топ-10 криптовалют
   const fetchTopCoins = async () => {
     try {
       const data = await getTopCoins() as TopCoinsResponse;
-      topCoinsSymbols.value = data.Data.map((coin) => coin.CoinInfo.Name);
-      console.log('top coins value', topCoinsSymbols.value);
+      topCoins.value = data.Data; // Сохраняем данные в состояние
+      console.log('Top Coins:', topCoins.value);
     } catch (error) {
-      console.error('Error fetching top coins data:', error);
+      console.error('Error fetching top coins:', error);
     }
   };
 
-  const fetchGlobalMarketCap = async () => {
+  // Функция для получения исторических данных
+  const fetchHistoricalData = async () => {
     try {
-      if (!topCoinsSymbols.value.length) {
-        console.warn('No top coins symbols found!');
-        return;
+      if (topCoins.value.length) {
+        const symbols = topCoins.value.map((coin) => coin.CoinInfo.Name); // Получаем символы криптовалют
+        const data = await getHistoricalMarketCaps(symbols); // Запрашиваем данные
+        historicalData.value = data; // Сохраняем исторические данные
+        console.log('Historical Data:', historicalData.value);
       }
-
-      const historicalData = await getHistoricalMarketCaps(topCoinsSymbols.value);
-      console.log('Global market cap:', historicalData);
     } catch (error) {
-      console.error('Error fetching global market cap:', error);
+      console.error('Error fetching historical data:', error);
     }
   };
 
@@ -66,12 +72,10 @@
 
   onMounted(async () => {
     try {
-      // Выполняем сначала fetchTopCoins, чтобы получить список символов криптовалют
       await fetchTopCoins();
-      // Теперь вызываем fetchGlobalMarketCap, который зависит от topCoinsSymbols.value
       await Promise.all([
         fetchMarketData(),
-        fetchGlobalMarketCap(), // Теперь будет выполняться после fetchTopCoins
+        fetchHistoricalData(),
         fetchTrendingCoins(),
         fetchNews(),
       ]);
@@ -84,5 +88,8 @@
 </script>
 
 <template>
-  <div>Check the console for market data.</div>
+  <div v-if="isLoading">Загрузка данных...</div>
+  <div v-else>
+    <top-coins-dashboard :topCoins="topCoins" :historicalData="historicalData" />
+  </div>
 </template> 
