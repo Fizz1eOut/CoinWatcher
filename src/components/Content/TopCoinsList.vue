@@ -2,6 +2,7 @@
   import type { TopCoin } from '@/interface/topCoins.interface';
   import AppTitle from '@/components/Base/AppTitle.vue';
   import AppSubtitle from '@/components/Base/AppSubtitle.vue';
+  import AppCoint from '@/components/Base/AppCoint.vue';
 
   // Интерфейс для пропсов
   interface TopCoinsProps {
@@ -32,10 +33,10 @@
         v-for="coin in coins"
         :key="coin.CoinInfo.Name"
         :class="{ active: selectedCoin === coin.CoinInfo.Name }"
-        @click="selectCoin(coin.CoinInfo.Name)"
         class="top-coint__item"
+        @click="selectCoin(coin.CoinInfo.Name)"
       >
-        {{ coin.CoinInfo.Name }}
+        <app-coint :coinName="coin.CoinInfo.Name" />
       </li>
     </ul>
   </div>

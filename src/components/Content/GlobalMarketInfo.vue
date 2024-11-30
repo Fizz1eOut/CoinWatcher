@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import { getMarketOverview } from '@/api/coins/marketOverview';
-  import { getTopCoins } from '@/api/coins/topCoins';
+  import { getAllCoins } from '@/api/coins/AllCoins';
   import { getHistoricalMarketCaps } from '@/api/coins/marketCaps';
   import { getTrendingCoins } from '@/api/coins/trendingCoins';
   import { getNews } from '@/api/coins/news';
@@ -28,8 +28,8 @@
   // Функция для получения топ-10 криптовалют
   const fetchTopCoins = async () => {
     try {
-      const data = await getTopCoins() as TopCoinsResponse;
-      topCoins.value = data.Data; // Сохраняем данные в состояние
+      const data = await getAllCoins() as TopCoinsResponse;
+      topCoins.value = data.Data.slice(0, 15);
       console.log('Top Coins:', topCoins.value);
     } catch (error) {
       console.error('Error fetching top coins:', error);
