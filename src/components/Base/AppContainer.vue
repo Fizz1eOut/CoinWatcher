@@ -1,16 +1,18 @@
 <script setup lang="ts">
-  import { computed, defineProps } from 'vue';
+  import { computed } from 'vue';
 
-  // Определяем свойства
-  const props = defineProps<{
-    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  }>();
-
-  // Устанавливаем значение по умолчанию для size
-  const size = props.size || 'xs';
+  // Определяем пропсы с дефолтным значением через withDefaults
+  const props = withDefaults(
+    defineProps<{
+      size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    }>(),
+    {
+      size: 'xs', // Дефолтное значение
+    }
+  );
 
   // Создаем вычисляемое свойство
-  const container = computed(() => `size-${size}`);
+  const container = computed(() => `size-${props.size}`);
 </script>
 
 <template>
