@@ -1,32 +1,34 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
-  // Определение пропсов с типизацией
-  const props = defineProps<{
-    gradient?: boolean;
-    outline?: boolean;
-    disabled?: boolean;
-  }>();
+  // Определение пропсов с дефолтными значениями через withDefaults
+  const props = withDefaults(
+    defineProps<{
+      gradient?: boolean;
+      outline?: boolean;
+      disabled?: boolean;
+    }>(),
+    {
+      gradient: false,
+      outline: false,
+      disabled: false,
+    }
+  );
 
-  // Значения по умолчанию
-  const gradient = props.gradient ?? false;
-  const outline = props.outline ?? false;
-  const disabled = props.disabled ?? false;
-
-  // Вычисляемый класс
+  // Вычисляемый объект классов
   const classes = computed(() => ({
-    'button-gradient': gradient,
-    'button-outline': outline,
-    'button-disabled': disabled,
+    'button-gradient': props.gradient,
+    'button-outline': props.outline,
+    'button-disabled': props.disabled,
   }));
 </script>
 
 <template>
-  <button 
+  <button
     type="button"
     class="button"
     :class="classes"
-    :disabled="disabled"
+    :disabled="props.disabled"
   >
     <slot></slot>
   </button>
