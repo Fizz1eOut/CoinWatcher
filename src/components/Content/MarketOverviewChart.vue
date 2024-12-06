@@ -1,166 +1,192 @@
 <script setup lang="ts">
-import { defineProps, watch, ref, computed, onMounted, onUnmounted } from 'vue';
-import type { MarketCapEntry } from '@/interface/marketCaps.interface';
-import ApexCharts from 'apexcharts';
+  import { defineProps, ref, watch, computed, onMounted, onUnmounted } from 'vue';
+  import ApexCharts from 'apexcharts';
+  import type { MarketCapEntry } from '@/interface/marketCaps.interface';
 
-const props = defineProps({
-  historicalData: {
-    type: Array as () => MarketCapEntry[],
-    required: true,
-  },
-  selectedCoin: {
-    type: String as () => string | null,
-    default: null, // Символ выбранной криптовалюты
-  },
-});
-
-const chartInstance = ref<ApexCharts | null>(null);
-
-// Фильтруем данные по выбранной криптовалюте
-const filteredData = computed(() => {
-  return props.selectedCoin
-    ? props.historicalData.filter((entry) => entry.symbol === props.selectedCoin)
-    : props.historicalData;
-});
-
-const colorPalette = [
-  '#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0',
-  '#546E7A', '#26A69A', '#D10CE8', '#F9A3A4', '#F48024',
-];
-
-// Конфигурация графика
-const generateChartOptions = (data: MarketCapEntry[]) => {
-  const series = data.map((entry) => {
-    const initialValue = entry.history[0]?.market_cap ?? entry.history[0]?.close ?? 1; // Начальное значение (рыночная капитализация или цена)
-    return {
-      name: entry.symbol,
-      data: entry.history.map((point) => ({
-        x: new Date(point.time * 1000), // Преобразуем timestamp в дату
-        y: initialValue ? ((point.market_cap ?? point.close) / initialValue - 1) * 100 : 0, // Процентное изменение
-      })),
-    };
+  // Пропсы
+  const props = defineProps({
+    historicalData: {
+      type: Array as () => MarketCapEntry[],
+      required: true,
+    },
+    selectedTimeRange: {
+      type: String as () => '1d' | '7d' | '1m',
+      required: true,
+    },
   });
 
-  return {
-    chart: {
-      type: 'line',
-      height: 400,
-      toolbar: { show: true },
-      zoom: { enabled: true },
-    },
-    title: {
-    text: `Display of cryptocurrency price percentage change`,
-    align: 'center',
-    style: {
-      fontSize: '20px',
-      fontWeight: 'semibold',
-      color: 'var(--color-white)',
-      fontFamily: "Orbitron"
-    },
-  },
-    series,
-    colors: colorPalette.slice(0, series.length), // Уникальные цвета
-    xaxis: {
-      type: 'datetime',
-      labels: { format: 'dd MMM' },
-      title: { text: 'Date' },
-    },
-    yaxis: {
-      labels: {
-        formatter: (value: number) => (isNaN(value) ? '0.00%' : `${value.toFixed(2)}%`),
-      },
-      title: {
-        text: 'Change (%)',
-      },
-    },
-    tooltip: {
-      theme: 'dark',
-      shared: true,
-      intersect: false,
-      custom: function (opts: {
-        series: number[][]; // Массив массивов с числовыми значениями серий
-        seriesIndex: number; // Индекс текущей серии
-        dataPointIndex: number; // Индекс текущей точки данных
-        w: {
-          config: {
-            series: { name: string }[]; // Массив объектов с именами серий
-            colors: string[]; // Цвета серий
-          };
-          globals: {
-            seriesX: number[][]; // Даты в формате timestamp
-          };
-        };
-      }): string {
-        const { series, seriesIndex, dataPointIndex, w } = opts;
-
-        // Получаем все значения для текущего dataPointIndex
-        const points = series.map((data: number[], index: number) => {
-          return {
-            name: w.config.series[index].name,
-            value: data[dataPointIndex] ?? 0, // Если значения нет, используем 0
-          };
-        });
-
-        // Сортируем точки по убыванию значений
-        points.sort((a, b) => b.value - a.value);
-
-        // Формируем HTML для всплывающей подсказки
-        let tooltipHtml = `<div class="apexcharts-tooltip-custom">`;
-        tooltipHtml += `<div><strong>${new Date(
-          w.globals.seriesX[seriesIndex][dataPointIndex]
-        ).toLocaleDateString()}</strong></div>`;
-        points.forEach((point) => {
-          const seriesColor =
-            w.config.colors[series.findIndex((s) => s[dataPointIndex] === point.value)] || '#fff';
-          tooltipHtml += `<div>
-            <span style="color: ${seriesColor};">●</span>
-            ${point.name}: ${point.value.toFixed(2)}%
-          </div>`;
-        });
-        tooltipHtml += `</div>`;
-        return tooltipHtml;
-      },
-    },
-    legend: {
-      position: 'top',
-      horizontalAlign: 'center',
-    },
-  };
-};
-
-// Метод для рендеринга графика
-const renderChart = (data: MarketCapEntry[]) => {
-  const chartElement = document.querySelector('#market-overview-chart');
-  if (chartElement && data.length) {
-    const options = generateChartOptions(data);
-    chartInstance.value = new ApexCharts(chartElement, options);
-    chartInstance.value.render();
-  }
-};
-
-// Следим за обновлением данных
-watch(
-  filteredData,
-  (newData) => {
-    if (chartInstance.value) {
-      chartInstance.value.updateOptions(generateChartOptions(newData));
-    } else {
-      renderChart(newData);
+  // Генерация цветов
+  const generateColors = (count: number) => {
+    const colors = [];
+    for (let i = 0; i < count; i++) {
+      colors.push(`#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`);
     }
-  },
-  { deep: true }
-);
+    return colors;
+  };
 
-onMounted(() => {
-  renderChart(filteredData.value);
-});
+  // Фильтрация данных
+  const filteredData = computed(() => {
+    const timeRangeMap = {
+      '1d': 1 * 24 * 60 * 60,
+      '7d': 7 * 24 * 60 * 60,
+      '1m': 30 * 24 * 60 * 60,
+    };
 
-onUnmounted(() => {
-  if (chartInstance.value) {
-    chartInstance.value.destroy();
-    chartInstance.value = null;
-  }
-});
+    const currentTime = Math.floor(Date.now() / 1000);
+    const rangeStartTime = currentTime - timeRangeMap[props.selectedTimeRange];
+
+    return props.historicalData.map((entry) => {
+      const filteredHistory = entry.history.filter((point) => point.time >= rangeStartTime);
+      const fallbackHistory = filteredHistory.length > 0 ? filteredHistory : entry.history.slice(-10);
+
+      return {
+        ...entry,
+        history: fallbackHistory,
+      };
+    });
+  });
+
+  // Настройки графика
+  const generateChartOptions = (data: MarketCapEntry[]) => {
+    const colors = generateColors(data.length);
+
+    const series = data.map((entry) => ({
+      name: entry.symbol,
+      data: entry.history.map((point) => ({
+        x: new Date(point.time * 1000),
+        y: point.market_cap ?? point.close,
+      })),
+    }));
+
+    return {
+      chart: {
+        type: 'line',
+        height: 400,
+        toolbar: { show: true },
+        zoom: { enabled: true },
+      },
+      series,
+      colors,
+      xaxis: {
+        type: 'datetime',
+        labels: {
+          format: 'dd MMM',
+          style: {
+            colors: 'var(--color-gray)', // Цвет текста на оси x
+
+          },
+        },
+        title: {
+          text: 'Date',
+          style: {
+            color: 'var(--color-gray)', // Цвет текста заголовка
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          formatter: (value: number) =>
+            value != null && !isNaN(value) ? `${value.toLocaleString()}$` : '-', // Проверка на undefined и NaN
+            style: {
+              colors: 'var(--color-gray)',
+            },
+        },
+        title: {
+          text: 'Market Cap / Price',
+          style: {
+            color: 'var(--color-gray)',
+          },
+        },
+      },
+      tooltip: {
+        theme: 'dark',
+        shared: true,
+        intersect: false,
+        custom: function (opts: {
+          series: number[][]; // Массив массивов с числовыми значениями серий
+          seriesIndex: number; // Индекс текущей серии
+          dataPointIndex: number; // Индекс текущей точки данных
+          w: {
+            config: {
+              series: { name: string }[]; // Массив объектов с именами серий
+              colors: string[]; // Цвета серий
+            };
+            globals: {
+              seriesX: number[][]; // Даты в формате timestamp
+            };
+          };
+        }): string {
+          const { series, seriesIndex, dataPointIndex, w } = opts;
+          // Получаем все значения для текущего dataPointIndex
+          const points = series.map((data: number[], index: number) => {
+            return {
+              name: w.config.series[index].name,
+              value: data[dataPointIndex] ?? 0, // Если значения нет, используем 0
+            };
+          });
+          // Сортируем точки по убыванию значений
+          points.sort((a, b) => b.value - a.value);
+          // Формируем HTML для всплывающей подсказки
+          let tooltipHtml = `<div class="apexcharts-tooltip-custom">`;
+          tooltipHtml += `<div><strong>${new Date(
+            w.globals.seriesX[seriesIndex][dataPointIndex]
+          ).toLocaleDateString()}</strong></div>`;
+          points.forEach((point) => {
+            const seriesColor =
+              w.config.colors[series.findIndex((s) => s[dataPointIndex] === point.value)] || '#fff';
+            tooltipHtml += `<div>
+              <span style="color: ${seriesColor};">●</span>
+              ${point.name}: ${point.value.toFixed(2)}$
+            </div>`;
+          });
+          tooltipHtml += `</div>`;
+          return tooltipHtml;
+        },
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+      },
+    };
+  };
+
+  // Ссылка на график
+  const chartInstance = ref<ApexCharts | null>(null);
+
+  // Рендеринг графика
+  const renderChart = (data: MarketCapEntry[]) => {
+    const chartElement = document.querySelector('#market-overview-chart');
+    if (chartElement && data.length) {
+      const options = generateChartOptions(data);
+      chartInstance.value = new ApexCharts(chartElement, options);
+      chartInstance.value.render();
+    }
+  };
+
+  // Слежение за данными
+  watch(
+    filteredData,
+    (newData) => {
+      if (chartInstance.value) {
+        chartInstance.value.updateOptions(generateChartOptions(newData));
+      } else {
+        renderChart(newData);
+      }
+    },
+    { deep: true }
+  );
+
+  // Монтаж и размонтаж графика
+  onMounted(() => {
+    renderChart(filteredData.value);
+  });
+
+  onUnmounted(() => {
+    if (chartInstance.value) {
+      chartInstance.value.destroy();
+      chartInstance.value = null;
+    }
+  });
 </script>
 
 <template>
