@@ -39,6 +39,8 @@
 <style scoped>
   .input-wrapper {
     width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
   }
   .input {
     width: 100%;
@@ -47,7 +49,6 @@
     color: var(--color-white);
     outline: none;
     border: 2px solid transparent;
-    border-radius: 10px;
     border-image: var(--color-gradient);
     border-image-slice: 1;
   }
