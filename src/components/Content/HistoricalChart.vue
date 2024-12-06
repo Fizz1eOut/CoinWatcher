@@ -55,7 +55,7 @@ const chartOptions = computed(() => ({
     strokeWidth: 2, // Толщина границы маркеров
   },
   title: {
-    text: `Chart of historical capitalization`,
+    text: `Chart of historical capitalization for ${props.coinName}`,
     align: 'center',
     style: {
       fontSize: '16px',
