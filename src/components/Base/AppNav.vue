@@ -22,22 +22,6 @@
       </div>
 
       <div class="nav__item">
-        <router-link to="/defi">
-          <app-link>
-            DeFi
-          </app-link>
-        </router-link>
-      </div>
-
-      <div class="nav__item">
-        <router-link to="/trendingCoins">
-          <app-link>
-            Trending coins
-          </app-link>
-        </router-link>
-      </div>
-
-      <div class="nav__item">
         <router-link to="/exchangers">
           <app-link>
             Exchangers
@@ -74,10 +58,12 @@
 
 
 <style scoped>
-  .nav__body >*:not(:last-child){
-    margin-bottom: 20px;
+  .nav__body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
   }
-
   .router-link-active .link {
     transition: background 0.3s ease-in-out;
     cursor: pointer;
