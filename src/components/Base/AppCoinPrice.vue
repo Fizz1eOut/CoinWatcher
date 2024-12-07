@@ -66,7 +66,7 @@ const formatPrice = (value: number | null): string => {
 
 <template>
   <div>
-    <div v-if="isLoading">Загрузка данных для {{ coinName }}...</div>
+    <div v-if="isLoading">Loading data for {{ coinName }}...</div>
     <div v-else>
       <span
         class="app-coint-price"
