@@ -1,42 +1,25 @@
 <script setup lang="ts">
   import type { TopCoin } from '@/interface/topCoins.interface';
-  import AppTitle from '@/components/Base/AppTitle.vue';
-  import AppSubtitle from '@/components/Base/AppSubtitle.vue';
   import AppCoint from '@/components/Base/AppCoint.vue';
 
   // Интерфейс для пропсов
   interface TopCoinsProps {
     coins: TopCoin[];
-    selectedCoin: string;
   }
 
   // Описание пропсов через дженерик
   defineProps<TopCoinsProps>();
-
-  // Определяем события
-  const emit = defineEmits<{
-    (e: 'selectCoin', coinName: string): void;
-  }>();
-
-  // Функция для обработки выбора монеты
-  const selectCoin = (coinName: string) => {
-    emit('selectCoin', coinName);
-  };
 </script>
 
 <template>
   <div class="top-coint">
-    <app-title v-if="coins.length > 0">Топ 10 криптовалют</app-title>
-    <app-subtitle v-else>Данные о криптовалютах отсутствуют</app-subtitle>
     <ul class="top-coint__list">
       <li
         v-for="coin in coins"
         :key="coin.CoinInfo.Name"
-        :class="{ active: selectedCoin === coin.CoinInfo.Name }"
         class="top-coint__item"
-        @click="selectCoin(coin.CoinInfo.Name)"
       >
-        <app-coint :coinName="coin.CoinInfo.Name" />
+        <app-coint :coin="coin" />
       </li>
     </ul>
   </div>
@@ -46,7 +29,9 @@
   .top-coint {
   }
   .top-coint__list {
+    margin-top: 40px;
   }
   .top-coint__item {
+
   }
 </style>
