@@ -1,13 +1,14 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import { getMarketOverview } from '@/api/coins/marketOverview';
-  import { getAllCoins } from '@/api/coins/AllCoins';
+  import { getTopCoins } from '@/api/coins/topCoins';
   import { getHistoricalMarketCaps } from '@/api/coins/marketCaps';
   import { getTrendingCoins } from '@/api/coins/trendingCoins';
   import { getNews } from '@/api/coins/news';
   import type { TopCoinsResponse, TopCoin } from '@/interface/topCoins.interface';
   import type { MarketCapEntry } from '@/interface/marketCaps.interface';
   import TopCoinsDashboard from '@/components/Content/TopCoinsDashboard.vue';
+  import DashboardChart from '@/components/Content/DashboardChart.vue';
 
   // Топ-10 криптовалют
   const topCoins = ref<TopCoin[]>([]);
@@ -28,8 +29,8 @@
   // Функция для получения топ-10 криптовалют
   const fetchTopCoins = async () => {
     try {
-      const data = await getAllCoins() as TopCoinsResponse;
-      topCoins.value = data.Data.slice(0, 15);
+      const data = await getTopCoins() as TopCoinsResponse;
+      topCoins.value = data.Data.slice(0, 10);
       console.log('Top Coins:', topCoins.value);
     } catch (error) {
       console.error('Error fetching top coins:', error);
@@ -88,8 +89,9 @@
 </script>
 
 <template>
-  <div v-if="isLoading">Загрузка данных...</div>
+  <div v-if="isLoading">Loading data...</div>
   <div v-else>
     <top-coins-dashboard :topCoins="topCoins" :historicalData="historicalData" />
+    <dashboard-chart :topCoins="topCoins" />
   </div>
 </template> 
