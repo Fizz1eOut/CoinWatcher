@@ -1,15 +1,36 @@
 <script setup lang="ts">
   import type { TopCoin } from '@/interface/topCoins.interface';
-  import TopCoinsList from '@/components/Content/TopCoinsList.vue';
   import AppTitle from '@/components/Base/AppTitle.vue';
   import AppSubtitle from '@/components/Base/AppSubtitle.vue';
+  import AppTable from '@/components/Base/AppTable.vue';
+  import AppImageCoins from '@/components/Base/AppImageCoin.vue';
+  import AppCoinPrice from '@/components/Base/AppCoinPrice.vue';
 
   // Интерфейс для пропсов
   interface CryptoDashboardProps {
     topCoins: TopCoin[];
   }
-  // Описание пропсов через дженерик
+
   const props = defineProps<CryptoDashboardProps>();
+
+  // Конфигурация колонок
+  const columns = [
+    { label: 'Name', key: 'name', slotName: 'name' },
+    { label: 'Price', key: 'price', slotName: 'price' },
+    { label: '24h Change', key: 'change' },
+    { label: 'Market Cap', key: 'marketCap' },
+    { label: '24h Volume', key: 'volume' },
+  ];
+
+  // Подготовка данных
+  const tableData = props.topCoins.map(coin => ({
+    name: coin.CoinInfo.Name,
+    imageUrl: coin.CoinInfo.ImageUrl,
+    price: coin.DISPLAY?.USD?.PRICE,
+    change: `${coin.DISPLAY?.USD?.CHANGEPCT24HOUR}%`,
+    marketCap: coin.DISPLAY?.USD?.MKTCAP,
+    volume: coin.DISPLAY?.USD?.TOTALVOLUME24H,
+  }));
 </script>
 
 <template>
@@ -17,10 +38,17 @@
     <app-title v-if="topCoins.length > 0">Top 10 Cryptocurrencies</app-title>
     <app-subtitle v-else>No data on cryptocurrencies</app-subtitle>
     <div class="dashboard__body">
-      <top-coins-list
-        :coins="props.topCoins"
-        class="top-coins"
-      />
+      <app-table :data="tableData" :columns="columns">
+        <template #name="{ row }">
+          <div class="row">
+            <app-image-coins :imageUrl="String(row.imageUrl)" />
+            <div class="name">{{ row.name }}</div>
+          </div>
+        </template>
+        <template #price="{ row }">
+          <app-coin-price :coinName="String(row.name)" />
+        </template>
+      </app-table>
     </div>
   </div>
 </template>
@@ -32,5 +60,16 @@
     justify-content: space-between;
     gap: 10px;
   }
+  .row {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    max-width: 80px;
+    width: 100%;
+  }
+  .name {
+    width: 100%;
+  }
 </style>
+
 
