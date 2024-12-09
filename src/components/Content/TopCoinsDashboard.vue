@@ -5,6 +5,7 @@
   import AppTable from '@/components/Base/AppTable.vue';
   import AppImageCoins from '@/components/Base/AppImageCoin.vue';
   import AppCoinPrice from '@/components/Base/AppCoinPrice.vue';
+  import AppCoinVolume from '@/components/Base/AppCoinVolume.vue';
 
   // Интерфейс для пропсов
   interface CryptoDashboardProps {
@@ -17,19 +18,17 @@
   const columns = [
     { label: 'Name', key: 'name', slotName: 'name' },
     { label: 'Price', key: 'price', slotName: 'price' },
-    { label: '24h Change', key: 'change' },
+    { label: '24h Change', key: 'change', },
     { label: 'Market Cap', key: 'marketCap' },
-    { label: '24h Volume', key: 'volume' },
+    { label: '24h Volume', key: 'volume', slotName: 'volume' },
   ];
 
   // Подготовка данных
   const tableData = props.topCoins.map(coin => ({
     name: coin.CoinInfo.Name,
     imageUrl: coin.CoinInfo.ImageUrl,
-    price: coin.DISPLAY?.USD?.PRICE,
     change: `${coin.DISPLAY?.USD?.CHANGEPCT24HOUR}%`,
     marketCap: coin.DISPLAY?.USD?.MKTCAP,
-    volume: coin.DISPLAY?.USD?.TOTALVOLUME24H,
   }));
 </script>
 
@@ -47,6 +46,10 @@
         </template>
         <template #price="{ row }">
           <app-coin-price :coinName="String(row.name)" />
+        </template>
+
+        <template #volume="{ row }">
+          <app-coin-volume :coinName="String(row.name)" />
         </template>
       </app-table>
     </div>
@@ -71,5 +74,3 @@
     width: 100%;
   }
 </style>
-
-

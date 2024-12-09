@@ -1,6 +1,7 @@
 interface PriceUpdate {
   coinName: string;
   price: number;
+  volume24h: number;
 }
 
 type Callback = (update: PriceUpdate) => void;
@@ -28,7 +29,8 @@ class WebSocketService {
         // Проверяем, что тип сообщения соответствует цене
         const coinName = data.FROMSYMBOL; // Извлекаем название монеты
         const price = data.PRICE; // Извлекаем цену
-        this.notifySubscribers(coinName, price); // Уведомляем подписчиков
+        const volume24h = data.VOLUME24HOUR;
+        this.notifySubscribers(coinName, { price, volume24h });
       }
     };
 
@@ -77,11 +79,11 @@ class WebSocketService {
     }
   }
 
-  // Уведомление всех подписчиков об изменении цены
-  private notifySubscribers(coinName: string, price: number) {
+  // Уведомление всех подписчиков об изменении данных
+  private notifySubscribers(coinName: string, data: { price: number; volume24h: number }) {
     const subscribers = this.subscriptions.get(coinName); // Получаем подписчиков монеты
     if (subscribers) {
-      subscribers.forEach((callback) => callback({ coinName, price })); // Вызываем каждый callback
+      subscribers.forEach((callback) => callback({ coinName, ...data })); // Вызываем каждый callback
     }
   }
 
@@ -106,4 +108,3 @@ class WebSocketService {
 
 // Экспортируем singleton WebSocket-сервиса
 export const webSocketService = new WebSocketService();
-

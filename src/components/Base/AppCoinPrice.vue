@@ -75,7 +75,7 @@ const formatPrice = (value: number | null): string => {
           'price-down': priceChange === 'down'
         }"
       >
-        ${{ formatPrice(price) }}
+        {{ formatPrice(price) }}$
       </span>
     </div>
   </div>
@@ -91,4 +91,3 @@ const formatPrice = (value: number | null): string => {
   font-weight: bold;
 }
 </style>
-
