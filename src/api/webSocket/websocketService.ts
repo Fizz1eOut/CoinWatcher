@@ -29,7 +29,7 @@ class WebSocketService {
         // Проверяем, что тип сообщения соответствует цене
         const coinName = data.FROMSYMBOL; // Извлекаем название монеты
         const price = data.PRICE; // Извлекаем цену
-        const volume24h = data.VOLUME24HOUR;
+        const volume24h = data.VOLUME24HOURTO;
         this.notifySubscribers(coinName, { price, volume24h });
       }
     };
