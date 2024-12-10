@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
-  import { getMarketOverview } from '@/api/coins/marketOverview';
   import { getTopCoins } from '@/api/coins/topCoins';
   import { getTrendingCoins } from '@/api/coins/trendingCoins';
   import { getNews } from '@/api/coins/news';
@@ -15,7 +14,7 @@
   // Функция для запроса рыночной информации и вывода данных в консоль
   const fetchMarketData = async () => {
     try {
-      const data = await getMarketOverview();
+      const data = await getTopCoins();
       console.log('market data', data); // Вывод данных в консоль
     } catch (error) {
       console.error('Error fetching market data:', error);
@@ -26,7 +25,9 @@
   const fetchTopCoins = async () => {
     try {
       const data = await getTopCoins() as TopCoinsResponse;
-      topCoins.value = data.Data.slice(0, 10);
+      // Фильтруем валюты с наличием RAW и DISPLAY
+      const filteredCoins = data.Data.filter(coin => coin.DISPLAY);
+      topCoins.value = filteredCoins.slice(0, 10);
       console.log('Top Coins:', topCoins.value);
     } catch (error) {
       console.error('Error fetching top coins:', error);
