@@ -6,6 +6,7 @@
   import AppImageCoins from '@/components/Base/AppImageCoin.vue';
   import AppCoinPrice from '@/components/Base/AppCoinPrice.vue';
   import AppCoinVolume from '@/components/Base/AppCoinVolume.vue';
+  import AppCoinMarketCap from '@/components/Base/AppCoinMarketCap.vue';
 
   // Интерфейс для пропсов
   interface CryptoDashboardProps {
@@ -19,7 +20,7 @@
     { label: 'Name', key: 'name', slotName: 'name' },
     { label: 'Price', key: 'price', slotName: 'price' },
     { label: '24h Change', key: 'change', },
-    { label: 'Market Cap', key: 'marketCap' },
+    { label: 'Market Cap', key: 'marketCap', slotName: 'marketCap', },
     { label: '24h Volume', key: 'volume', slotName: 'volume' },
   ];
 
@@ -28,7 +29,6 @@
     name: coin.CoinInfo.Name,
     imageUrl: coin.CoinInfo.ImageUrl,
     change: `${coin.DISPLAY?.USD?.CHANGEPCT24HOUR}%`,
-    marketCap: coin.DISPLAY?.USD?.MKTCAP,
   }));
 </script>
 
@@ -46,6 +46,10 @@
         </template>
         <template #price="{ row }">
           <app-coin-price :coinName="String(row.name)" />
+        </template>
+
+        <template #marketCap="{ row }">
+          <AppCoinMarketCap :coinName="String(row.name)" />
         </template>
 
         <template #volume="{ row }">
