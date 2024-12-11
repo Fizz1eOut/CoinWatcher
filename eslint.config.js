@@ -1,6 +1,6 @@
-import pluginVue from 'eslint-plugin-vue'
-import vueTsEslintConfig from '@vue/eslint-config-typescript'
-import pluginVitest from '@vitest/eslint-plugin'
+import pluginVue from 'eslint-plugin-vue';
+import vueTsEslintConfig from '@vue/eslint-config-typescript';
+import pluginVitest from '@vitest/eslint-plugin';
 
 export default [
   {
@@ -8,10 +8,33 @@ export default [
     files: ['**/*.{ts,mts,tsx,vue}'],
     rules: {
       'vue/max-attributes-per-line': ['warn', {
-        singleline: {max: 3}
+        singleline: 3,
+        multiline: 3
       }],
       'vue/singleline-html-element-content-newline': ['off'],
       'eol-last': ['error', 'always'],
+      'semi': ['error', 'always'],
+      'quotes': ['error', 'single'],
+      'indent': ['error', 2, {
+        SwitchCase: 1,
+        ignoredNodes: [
+          'TemplateLiteral',
+          'Program > ExpressionStatement > TemplateLiteral',
+          'Program',
+          'ExpressionStatement > CallExpression'
+        ]
+      }],
+      'vue/script-indent': ['error', 2, {
+        baseIndent: 1,
+        switchCase: 1,
+        ignores: []
+      }],
+      'vue/html-indent': ['error', 2, {
+        attribute: 1,
+        baseIndent: 1,
+        closeBracket: 0,
+        alignAttributesVertically: true
+      }]
     }
   },
 
@@ -22,9 +45,9 @@ export default [
 
   ...pluginVue.configs['flat/essential'],
   ...vueTsEslintConfig(),
-  
+
   {
     ...pluginVitest.configs.recommended,
     files: ['src/**/__tests__/*'],
   },
-]
+];
