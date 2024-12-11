@@ -31,7 +31,7 @@
     // Отписываемся от события изменения медиазапроса
     mediaQueryList.removeEventListener('change', handleMediaChange);
   });
-  </script>
+</script>
 
 
 <template>
