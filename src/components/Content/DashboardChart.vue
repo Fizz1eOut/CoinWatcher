@@ -71,19 +71,16 @@
         :historicalData="historicalData"
         :selectedTimeRange="selectedTimeRange"
       />
-      <p class="dashboard-char__text">
-        This chart shows the dynamics of the market capitalization of assets over a selected time range (1 day, 7 days, or 1 month). Each line represents a single asset, and the dots on it show the value of the market capitalization or price of the asset at a certain point in time. Bitcoin (BTC) and other major assets are presented for comparison, which allows you to assess their relative change and popularity among investors.
-      </p>
     </div>
   </div>
 </template>
 
 <style scoped>
   .dashboard-chart {
-    margin-top: 30px;
+    margin-top: 40px;
   }
   .dashboard-char__buttons {
-    margin: 20px auto 20px;
+    margin: 30px auto 30px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -101,13 +98,6 @@
   }
   .active {
     background: var(--color-gradient);
-  }
-  .dashboard-char__text {
-    margin-top: -15px;
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--color-gray);
-    letter-spacing: -0.02em;
   }
   @media (max-width: 499px) {
     .dashboard-chart {

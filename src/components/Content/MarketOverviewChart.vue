@@ -15,6 +15,18 @@
     },
   });
 
+  // Функция для форматирования чисел (миллиарды, миллионы, тысячи)
+  const formatCompactNumber = (value: number): string => {
+    if (value >= 1_000_000_000) {
+      return (value / 1_000_000_000).toFixed(0) + 'B'; // Миллиарды, без десятичных
+    } else if (value >= 1_000_000) {
+      return (value / 1_000_000).toFixed(0) + 'M'; // Миллионы, без десятичных
+    } else if (value >= 1_000) {
+      return (value / 1_000).toFixed(0) + 'K'; // Тысячи, без десятичных
+    }
+    return value.toFixed(0); // Обычное число, без десятичных
+  };
+
   // Генерация цветов
   const generateColors = (count: number) => {
     const colors = [];
@@ -62,8 +74,8 @@
       chart: {
         type: 'line',
         height: 400,
-        toolbar: { show: true },
-        zoom: { enabled: true },
+        toolbar: { show: false },
+        zoom: { enabled: false },
       },
       series,
       colors,
@@ -76,25 +88,13 @@
 
           },
         },
-        title: {
-          text: 'Date',
-          style: {
-            color: 'var(--color-gray)', // Цвет текста заголовка
-          },
-        },
       },
       yaxis: {
         labels: {
           formatter: (value: number) =>
-            value != null && !isNaN(value) ? `${value.toLocaleString()}$` : '-', // Проверка на undefined и NaN
-            style: {
-              colors: 'var(--color-gray)',
-            },
-        },
-        title: {
-          text: 'Market Cap / Price',
+            value != null && !isNaN(value) ? `${formatCompactNumber(value)}$` : '-', // Использование formatCompactNumber
           style: {
-            color: 'var(--color-gray)',
+            colors: 'var(--color-gray)',
           },
         },
       },
@@ -127,7 +127,7 @@
           // Сортируем точки по убыванию значений
           points.sort((a, b) => b.value - a.value);
           // Формируем HTML для всплывающей подсказки
-          let tooltipHtml = `<div class="apexcharts-tooltip-custom">`;
+          let tooltipHtml = '<div class="apexcharts-tooltip-custom">';
           tooltipHtml += `<div><strong>${new Date(
             w.globals.seriesX[seriesIndex][dataPointIndex]
           ).toLocaleDateString()}</strong></div>`;
@@ -139,7 +139,7 @@
               ${point.name}: ${point.value.toFixed(2)}$
             </div>`;
           });
-          tooltipHtml += `</div>`;
+          tooltipHtml += '</div>';
           return tooltipHtml;
         },
       },
