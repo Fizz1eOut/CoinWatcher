@@ -6,6 +6,7 @@
   import type { TopCoinsResponse, TopCoin } from '@/interface/topCoins.interface';
   import TopCoinsDashboard from '@/components/Content/TopCoinsDashboard.vue';
   import DashboardChart from '@/components/Content/DashboardChart.vue';
+  import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
 
   // Топ-10 криптовалют
   const topCoins = ref<TopCoin[]>([]);
@@ -71,7 +72,13 @@
 </script>
 
 <template>
-  <div v-if="isLoading">Loading data...</div>
+  <app-loading-spinner 
+    v-if="isLoading" 
+    class="loader" 
+    size="70px"
+    borderWidth="7px"
+    height="100vh" 
+  />
   <div v-else>
     <top-coins-dashboard :topCoins="topCoins" />
     <dashboard-chart :topCoins="topCoins" />
