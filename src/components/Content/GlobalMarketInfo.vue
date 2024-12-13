@@ -4,7 +4,7 @@
   import { getTrendingCoins } from '@/api/coins/trendingCoins';
   import { getNews } from '@/api/coins/news';
   import type { TopCoinsResponse, TopCoin } from '@/interface/topCoins.interface';
-  import TopCoinsDashboard from '@/components/Content/TopCoinsDashboard.vue';
+  import CryptoTable from '@/components/Content/CryptoTable.vue';
   import DashboardChart from '@/components/Content/DashboardChart.vue';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
 
@@ -80,7 +80,7 @@
     height="100vh" 
   />
   <div v-else>
-    <top-coins-dashboard :topCoins="topCoins" />
+    <crypto-table :topCoins="topCoins" />
     <dashboard-chart :topCoins="topCoins" />
   </div>
 </template> 
