@@ -16,6 +16,11 @@
   color: var(--color-white);
   font-family: "Orbitron", sans-serif;
 }  
+@media (max-width: 768px) {
+  .subtitle {
+    font-size: 20px;
+  }
+}
 @media (max-width: 499.98px) {
   .subtitle {
     font-weight: 600;

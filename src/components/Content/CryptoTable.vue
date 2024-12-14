@@ -90,6 +90,9 @@
 </template>
 
 <style scoped>
+  .dashboard {
+    margin-top: 40px
+  }
   .dashboard__body {
     margin-top: 30px;
     display: flex;

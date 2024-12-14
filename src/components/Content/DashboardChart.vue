@@ -99,9 +99,4 @@
   .active {
     background: var(--color-gradient);
   }
-  @media (max-width: 499px) {
-    .dashboard-chart {
-      margin-top: 20px;
-    }
-  } 
 </style>
