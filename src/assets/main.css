@@ -43,7 +43,7 @@ body {
   font-size: 18px;
   font-weight: 400;
   color: var(--color-white);
-  font-family: "Source Code Pro", monospace;
+  font-family: "Montserrat", sans-serif;
   /* font-family: "Orbitron", sans-serif; */
 }
 
@@ -78,7 +78,7 @@ body {
   --color-yellow: #EDB60B;
   --color-green: #039855;
   --color-red: #D92D20;
-  --color-gray: #45485C;
+  --color-gray: #6b6d7c;
   --color-gradient: linear-gradient(90deg, #1fb9ee 0%, #8b43d8 100%);
   --color-gradient-hover: linear-gradient(90deg, #41acca 0%, #b573ff 100%);
   --color-background: #141627;

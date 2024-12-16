@@ -4,10 +4,12 @@
   import { getTrendingCoins } from '@/api/coins/trendingCoins';
   import { getNews } from '@/api/coins/news';
   import type { TopCoinsResponse, TopCoin } from '@/interface/topCoins.interface';
+  import type { NewsItem, NewsResponse } from '@/interface/news.interface';
   import CryptoTable from '@/components/Content/CryptoTable.vue';
   import DashboardChart from '@/components/Content/DashboardChart.vue';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
   import TrendingCoinsList from '@/components/Content/TrendingCoinsList.vue';
+  import CryptoNews from '@/components/Content/CryptoNews.vue';
 
   const topCoins = ref<TopCoin[]>([]);
   const trendingCoins = ref<{
@@ -17,6 +19,7 @@
     topGainers: [],
     topLosers: [],
   });
+  const news = ref<NewsItem[]>([]);
   const isLoading = ref<boolean>(true);
 
   // // Функция для запроса рыночной информации и вывода данных в консоль
@@ -68,7 +71,6 @@
         .slice(0, 10);
 
       trendingCoins.value = {topGainers, topLosers};
-      console.log(trendingCoins);
     } catch (error) {
       console.error('Error fetching trending coins data:', error);
     }
@@ -77,8 +79,10 @@
   // Новости 
   const fetchNews = async () => {
     try {
-      const data = await getNews();
-      console.log('news data', data); // Вывод данных в консоль
+      const data = await getNews() as NewsResponse; // Типизация с NewsResponse
+      console.log(data);
+      news.value = data.Data.slice(0, 6);// Берем первые 6 новостей
+      console.log(news.value);
     } catch (error) {
       console.error('Error fetching news data:', error);
     }
@@ -114,5 +118,6 @@
     />
     <crypto-table :topCoins="topCoins" />
     <dashboard-chart :topCoins="topCoins" />
+    <crypto-news :news="news" />
   </div>
 </template> 
