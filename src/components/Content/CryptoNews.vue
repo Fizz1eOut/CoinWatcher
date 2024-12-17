@@ -56,7 +56,7 @@
 
               <div class="news-card__content">
                 <div class="news-card__tags">
-                  Tags: {{ item.tags }}
+                  Tags: {{ item.tags || "N/A" }}
                 </div>
 
                 <app-subtitle class="news-card__subtitle">{{ item.title }}</app-subtitle>
@@ -113,6 +113,7 @@
     flex-direction: column;
     justify-content: space-between;
     min-height: 300px;
+    width: 100%;
   }
   .news-card__text {
     display: -webkit-box;
@@ -184,5 +185,10 @@
       text-overflow: ellipsis;
       white-space: normal;
     }
+    .news-card__tags {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+     }
   }
 </style>

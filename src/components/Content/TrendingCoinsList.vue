@@ -71,7 +71,7 @@
     margin-top: 20px;
   }
   .trending-coint__item {
-    max-width: 400px;
+    max-width: 500px;
   }
   @media (max-width: 768px) {
     .trending-coint__item {

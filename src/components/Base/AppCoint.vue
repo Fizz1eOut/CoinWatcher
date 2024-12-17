@@ -39,6 +39,9 @@
   }
   .app-coint__name {
     width: 75%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
   .app-coint__row {
     display: flex;
