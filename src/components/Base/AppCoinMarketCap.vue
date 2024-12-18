@@ -1,79 +1,80 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue';
-import { webSocketService } from '@/api/webSocket/websocketService';
+  import { ref, onMounted, onUnmounted, watch } from 'vue';
+  import { webSocketService } from '@/api/webSocket/websocketService';
+  import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
 
-interface AppCoinmarketCapProps {
-  coinName: string; // Имя монеты
-}
+  interface AppCoinmarketCapProps {
+    coinName: string; // Имя монеты
+  }
 
-const props = defineProps<AppCoinmarketCapProps>();
+  const props = defineProps<AppCoinmarketCapProps>();
 
-// Реактивные данные
-const marketCap = ref<number | null>(null); // Текущий объем торгов
-const previousMarketCap = ref<number | null>(null); // Предыдущий объем торгов
-const volumeChange = ref<'up' | 'down' | null>(null); // Направление изменения объема
-const isLoading = ref<boolean>(true); // Флаг загрузки данных
+  // Реактивные данные
+  const marketCap = ref<number | null>(null); // Текущий объем торгов
+  const previousMarketCap = ref<number | null>(null); // Предыдущий объем торгов
+  const volumeChange = ref<'up' | 'down' | null>(null); // Направление изменения объема
+  const isLoading = ref<boolean>(true); // Флаг загрузки данных
 
-// Callback для обработки обновлений объема торгов
-const handleVolumeUpdate = (update: { coinName: string; marketCap: number }) => {
-  if (update.coinName === props.coinName) {
-    if (marketCap.value !== null) {
-      volumeChange.value = update.marketCap > marketCap.value ? 'up' : 'down';
+  // Callback для обработки обновлений объема торгов
+  const handleVolumeUpdate = (update: { coinName: string; marketCap: number }) => {
+    if (update.coinName === props.coinName) {
+      if (marketCap.value !== null) {
+        volumeChange.value = update.marketCap > marketCap.value ? 'up' : 'down';
+      }
+      previousMarketCap.value = marketCap.value;
+      marketCap.value = update.marketCap;
+      isLoading.value = false;
     }
-    previousMarketCap.value = marketCap.value;
-    marketCap.value = update.marketCap;
-    isLoading.value = false;
-  }
-};
+  };
 
-// Подписка на обновления
-onMounted(() => {
-  webSocketService.subscribe(props.coinName, handleVolumeUpdate);
-});
+  // Подписка на обновления
+  onMounted(() => {
+    webSocketService.subscribe(props.coinName, handleVolumeUpdate);
+  });
 
-// Отписка при уничтожении компонента
-onUnmounted(() => {
-  webSocketService.unsubscribe(props.coinName, handleVolumeUpdate);
-});
+  // Отписка при уничтожении компонента
+  onUnmounted(() => {
+    webSocketService.unsubscribe(props.coinName, handleVolumeUpdate);
+  });
 
-// Обновление подписки при изменении имени монеты
-watch(
-  () => props.coinName,
-  (newCoinName, oldCoinName) => {
-    webSocketService.unsubscribe(oldCoinName, handleVolumeUpdate);
-    webSocketService.subscribe(newCoinName, handleVolumeUpdate);
-    // Сброс состояния
-    marketCap.value = null;
-    previousMarketCap.value = null;
-    volumeChange.value = null;
-    isLoading.value = true;
-  }
-);
+  // Обновление подписки при изменении имени монеты
+  watch(
+    () => props.coinName,
+    (newCoinName, oldCoinName) => {
+      webSocketService.unsubscribe(oldCoinName, handleVolumeUpdate);
+      webSocketService.subscribe(newCoinName, handleVolumeUpdate);
+      // Сброс состояния
+      marketCap.value = null;
+      previousMarketCap.value = null;
+      volumeChange.value = null;
+      isLoading.value = true;
+    }
+  );
 
-// функция для сокращения чисел
-const formatCompactNumber = (value: number): string => {
-  if (value >= 1_000_000_000) {
-    return (value / 1_000_000_000).toFixed(2) + 'B'; // Миллиарды
-  } else if (value >= 1_000_000) {
-    return (value / 1_000_000).toFixed(2) + 'M'; // Миллионы
-  } else if (value >= 1_000) {
-    return (value / 1_000).toFixed(2) + 'K'; // Тысячи
-  }
-  return value.toFixed(2); // Обычное число
-};
+  // функция для сокращения чисел
+  const formatCompactNumber = (value: number): string => {
+    if (value >= 1_000_000_000) {
+      return (value / 1_000_000_000).toFixed(2) + 'B'; // Миллиарды
+    } else if (value >= 1_000_000) {
+      return (value / 1_000_000).toFixed(2) + 'M'; // Миллионы
+    } else if (value >= 1_000) {
+      return (value / 1_000).toFixed(2) + 'K'; // Тысячи
+    }
+    return value.toFixed(2); // Обычное число
+  };
 
-// Функция для форматирования объема
-const formatVolume = (value: number | null): string => {
-  if (value === null) {
-    return 'N/A';
-  }
-  return formatCompactNumber(value); // Используем сокращенное форматирование
-};
+  // Функция для форматирования объема
+  const formatVolume = (value: number | null): string => {
+    if (value === null) {
+      return 'N/A';
+    }
+    return formatCompactNumber(value); // Используем сокращенное форматирование
+  };
 </script>
 
 <template>
   <div>
-    <div v-if="isLoading">Loading volume data for {{ coinName }}...</div>
+    <app-loading-spinner size="20px" v-if="isLoading">Loading data for {{ coinName }}...</app-loading-spinner>
     <div v-else>
       <span
         class="app-coint-volume"

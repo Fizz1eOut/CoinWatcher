@@ -65,7 +65,7 @@
     flex: 0 1 50%;
   }
   .trending-coint__list> *:not(:last-child) {
-    margin-bottom: 10px;
+    margin-bottom: 16px;
   }
   .trending-coint__list {
     margin-top: 20px;
