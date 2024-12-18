@@ -2,12 +2,12 @@
   import { ref, onMounted, onUnmounted, computed } from 'vue';
   import type { TopCoin } from '@/interface/topCoins.interface';
   import AppTitle from '@/components/Base/AppTitle.vue';
-  import AppSubtitle from '@/components/Base/AppSubtitle.vue';
   import AppTable from '@/components/Base/AppTable.vue';
   import AppImageCoins from '@/components/Base/AppImageCoin.vue';
   import AppCoinPrice from '@/components/Base/AppCoinPrice.vue';
   import AppCoinVolume from '@/components/Base/AppCoinVolume.vue';
   import AppCoinMarketCap from '@/components/Base/AppCoinMarketCap.vue';
+  import AppLink from '@/components/Base/AppLink.vue';
 
   // Интерфейс для пропсов
   interface CryptoDashboardProps {
@@ -62,9 +62,13 @@
 </script>
 
 <template>
-  <div class="dashboard">
-    <app-title v-if="topCoins.length > 0">Top 10 Cryptocurrencies</app-title>
-    <app-subtitle v-else>No data on cryptocurrencies</app-subtitle>
+  <div v-if="topCoins.length > 0" class="dashboard">
+    <div class="dashboard__header">
+      <app-title>Top 10 сryptocurrencies</app-title>
+      <router-link to="/сoins">
+        <app-link>View all</app-link>
+      </router-link>
+    </div>
     <div class="dashboard__body">
       <app-table :data="tableData" :columns="visibleColumns">
         <template #name="{ row }">
@@ -92,6 +96,16 @@
 <style scoped>
   .dashboard {
     margin-top: 40px
+  }
+  .dashboard__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    max-width: 1170px;
+  }
+  .dashboard__header .link {
+    min-width: 76px;
   }
   .dashboard__body {
     margin-top: 30px;

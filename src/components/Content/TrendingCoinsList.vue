@@ -3,6 +3,7 @@
   import AppCoint from '@/components/Base/AppCoint.vue';
   import AppTitle from '@/components/Base/AppTitle.vue';
   import AppSubtitle from '@/components/Base/AppSubtitle.vue';
+  import AppLink from '@/components/Base/AppLink.vue';
 
   // Интерфейс для пропсов
   interface trendingCoins {
@@ -15,10 +16,15 @@
 </script>
 
 <template>
-  <div class="trending-coint">
-    <app-title>
-      Trending cryptocurrencies
-    </app-title>
+  <div v-if="topGainers.length > 0" class="trending-coint">
+    <div class="trending-coint__header">
+      <app-title>
+        Trending cryptocurrencies
+      </app-title>
+      <router-link to="/сoins">
+        <app-link>View all</app-link>
+      </router-link>
+    </div>
     <div class="trending-coint__body">
       <div class="trending__group">
         <app-subtitle>
@@ -54,6 +60,16 @@
 </template>
 
 <style scoped>
+  .trending-coint__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    max-width: 1170px;
+  }
+  .trending-coint__header .link {
+    min-width: 76px;
+  }
   .trending-coint__body {
     margin-top: 20px;
     display: flex;

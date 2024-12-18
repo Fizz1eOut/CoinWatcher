@@ -2,9 +2,9 @@
   import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
   import type { ExchangeData } from '@/interface/exchanges.interface';
   import AppTitle from '@/components/Base/AppTitle.vue';
-  import AppSubtitle from '@/components/Base/AppSubtitle.vue';
   import AppTable from '@/components/Base/AppTable.vue';
   import AppImageCoin from '@/components/Base/AppImageCoin.vue';
+  import AppLink from '@/components/Base/AppLink.vue';
 
   // Пропсы для передачи данных о биржах
   interface CryptoExchangesProps {
@@ -74,9 +74,13 @@
 </script>
 
 <template>
-  <div class="exchanges">
-    <app-title v-if="exchanges.length > 0">Top 10 Exchanges</app-title>
-    <app-subtitle v-else>No data on exchanges</app-subtitle>
+  <div v-if="exchanges.length > 0" class="exchanges">
+    <div class="exchanges__header">
+      <app-title>Top 10 Exchanges</app-title>
+      <router-link to="/exchangers">
+        <app-link>View all</app-link>
+      </router-link>
+    </div>
     <div class="exchanges__body">
       <app-table 
         :data="tableData" 
@@ -103,6 +107,16 @@
 <style scoped>
   .exchanges {
     margin-top: 40px
+  }
+  .exchanges__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    max-width: 1170px;
+  }
+  .exchanges__header .link {
+    min-width: 76px;
   }
   .exchanges__body {
     margin-top: 30px;

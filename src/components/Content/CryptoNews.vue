@@ -5,6 +5,8 @@
   import AppTitle from '@/components/Base/AppTitle.vue';
   import AppUnderlay from '@/components/Base/AppUnderlay.vue';
   import AppContainer from '@/components/Base/AppContainer.vue';
+  import AppLink from '@/components/Base/AppLink.vue';
+
   // Принимаем массив новостей в пропсах
   const props = defineProps<{
     news: NewsItem[];
@@ -38,10 +40,14 @@
 </script>
 
 <template>
-  <div class="crypto-news">
-    <app-title>Latest Crypto News</app-title>
-    <div v-if="news.length === 0">No news available</div>
-    <div class="crypto-news__item" v-else>
+  <div v-if="news.length > 0" class="crypto-news">
+    <div class="crypto-news__header">
+      <app-title>Latest Crypto News</app-title>
+      <router-link to="/news">
+        <app-link>View all</app-link>
+      </router-link>
+    </div>
+    <div class="crypto-news__item">
       <div
         v-for="(item, index) in news"  
         :key="item.id"
@@ -92,6 +98,16 @@
 <style scoped>
   .crypto-news {
     margin-top: 40px;
+  }
+  .crypto-news__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    max-width: 1170px;
+  }
+  .crypto-news__header .link {
+    min-width: 76px;
   }
   .crypto-news__card {
     margin-top: 30px;
