@@ -10,10 +10,17 @@
   interface TableProps<T = Record<string, unknown>> {
     data: T[];
     columns: Column[];
+    onRowClick?: (row: T) => void;
   }
 
   // Указываем дженерик T с типом по умолчанию
-  defineProps<TableProps<Record<string, unknown>>>();
+  const props = defineProps<TableProps<Record<string, unknown>>>();
+
+  const onRowClick = (row: Record<string, unknown>) => {
+    if (props.onRowClick) {
+      props.onRowClick(row);
+    }
+  };
 </script>
 
 <template>
@@ -35,6 +42,7 @@
         v-for="(row, rowIndex) in data"
         :key="rowIndex"
         class="the-table__item"
+        @click="onRowClick(row)"
       >
         <div
           v-for="column in columns"

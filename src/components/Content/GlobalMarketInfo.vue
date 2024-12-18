@@ -3,13 +3,16 @@
   import { getTopCoins } from '@/api/coins/topCoins';
   import { getTrendingCoins } from '@/api/coins/trendingCoins';
   import { getNews } from '@/api/coins/news';
+  import { getExchanges } from '@/api/coins/exchanges';
   import type { TopCoinsResponse, TopCoin } from '@/interface/topCoins.interface';
   import type { NewsItem, NewsResponse } from '@/interface/news.interface';
+  import type { ExchangeData, ExchangesResponse } from '@/interface/exchanges.interface';
   import CryptoTable from '@/components/Content/CryptoTable.vue';
   import DashboardChart from '@/components/Content/DashboardChart.vue';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
   import TrendingCoinsList from '@/components/Content/TrendingCoinsList.vue';
   import CryptoNews from '@/components/Content/CryptoNews.vue';
+  import CryptoExchanges from '@/components/Content/CryptoExchanges.vue';
 
   const topCoins = ref<TopCoin[]>([]);
   const trendingCoins = ref<{
@@ -20,6 +23,7 @@
     topLosers: [],
   });
   const news = ref<NewsItem[]>([]);
+  const exchanges = ref<ExchangeData[]>([]);
   const isLoading = ref<boolean>(true);
 
   // // Функция для запроса рыночной информации и вывода данных в консоль
@@ -39,7 +43,6 @@
       // Фильтруем валюты с наличием DISPLAY
       const filteredCoins = data.Data.filter(coin => coin.DISPLAY);
       topCoins.value = filteredCoins.slice(0, 10);
-      console.log('Top Coins:', topCoins.value);
     } catch (error) {
       console.error('Error fetching top coins:', error);
     }
@@ -76,15 +79,29 @@
     }
   };
 
-  // Новости 
   const fetchNews = async () => {
     try {
-      const data = await getNews() as NewsResponse; // Типизация с NewsResponse
-      console.log(data);
-      news.value = data.Data.slice(0, 6);// Берем первые 6 новостей
-      console.log(news.value);
+      const data = await getNews() as NewsResponse;
+      news.value = data.Data.slice(0, 6);
     } catch (error) {
       console.error('Error fetching news data:', error);
+    }
+  };
+
+  const fetchExchanges = async () => {
+    try {
+      const data = await getExchanges() as ExchangesResponse;
+      console.log(data);
+      const exchangesArray = Object.entries(data.Data).map(([exchangeKey, exchangeData]) => ({
+        Id: exchangeKey, 
+        Name: exchangeData.Name,
+        ...exchangeData, // Все остальные данные
+      }));
+      // Сортируем биржи по GradePoints в убывающем порядке
+      const sortedExchanges = exchangesArray.sort((a, b) => b.GradePoints - a.GradePoints);
+      exchanges.value = sortedExchanges.slice(0, 10);
+    } catch (error) {
+      console.error('Error fetching exchanges data:', error);
     }
   };
 
@@ -94,11 +111,12 @@
       await Promise.all([
         fetchTrendingCoins(),
         fetchNews(),
+        fetchExchanges(),
       ]);
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
-      isLoading.value = false; // Сбрасываем флаг загрузки после завершения всех запросов
+      isLoading.value = false;
     }
   });
 </script>
@@ -118,6 +136,7 @@
     />
     <crypto-table :topCoins="topCoins" />
     <dashboard-chart :topCoins="topCoins" />
+    <crypto-exchanges :exchanges="exchanges" />
     <crypto-news :news="news" />
   </div>
-</template> 
+</template>
