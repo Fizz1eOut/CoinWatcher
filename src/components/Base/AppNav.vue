@@ -56,8 +56,11 @@
   </div>
 </template>
 
-
 <style scoped>
+  .nav {
+    max-width: 550px;
+    width: 100%;
+  }
   .nav__body {
     display: flex;
     align-items: center;

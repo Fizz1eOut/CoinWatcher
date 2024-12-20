@@ -44,7 +44,7 @@
   }
   .input {
     width: 100%;
-    padding: 12px 20px 12px 40px;
+    padding: 10px 20px;
     background-color: transparent;
     color: var(--color-white);
     outline: none;
