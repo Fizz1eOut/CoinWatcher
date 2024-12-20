@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, onMounted, onUnmounted, computed } from 'vue';
+  import { ref, computed, onMounted, onUnmounted } from 'vue';
   import type { TopCoin } from '@/interface/topCoins.interface';
   import AppTitle from '@/components/Base/AppTitle.vue';
   import AppTable from '@/components/Base/AppTable.vue';
@@ -10,11 +10,11 @@
   import AppLink from '@/components/Base/AppLink.vue';
 
   // Интерфейс для пропсов
-  interface CryptoDashboardProps {
+  interface CryptoTableProps {
     topCoins: TopCoin[];
   }
 
-  const props = defineProps<CryptoDashboardProps>();
+  const props = defineProps<CryptoTableProps>();
 
   // Реактивная ширина экрана
   const screenWidth = ref(window.innerWidth);
@@ -31,7 +31,14 @@
     window.removeEventListener('resize', updateScreenWidth);
   });
 
-  // Определение видимых колонок на основе ширины экрана
+  const columns = [
+    { label: 'Name', key: 'name', slotName: 'name' },
+    { label: 'Price', key: 'price', slotName: 'price', sortable: true },
+    { label: '24h Change', key: 'change', sortable: true },
+    { label: 'Market Cap', key: 'marketCap', slotName: 'marketCap', sortable: true },
+    { label: '24h Volume', key: 'volume', slotName: 'volume', sortable: true },
+  ];
+
   const visibleColumns = computed(() => {
     if (screenWidth.value <= 480) {
       // Меньше 480px: показываем только Name и Price
@@ -44,33 +51,109 @@
     return columns;
   });
 
-  // Конфигурация колонок
-  const columns = [
-    { label: 'Name', key: 'name', slotName: 'name' },
-    { label: 'Price', key: 'price', slotName: 'price' },
-    { label: '24h Change', key: 'change', },
-    { label: 'Market Cap', key: 'marketCap', slotName: 'marketCap', },
-    { label: '24h Volume', key: 'volume', slotName: 'volume' },
-  ];
+  const sortKey = ref<string | null>(null);
+  const sortOrder = ref<'asc' | 'desc'>('asc');
 
-  // Подготовка данных
-  const tableData = props.topCoins.map(coin => ({
-    name: coin.CoinInfo.Name,
-    imageUrl: coin.CoinInfo.ImageUrl,
-    change: `${coin.DISPLAY?.USD?.CHANGEPCT24HOUR}%`,
-  }));
+  // Функция для извлечения сортируемого значения из объекта монеты на основе заданного ключа.
+  const extractSortableValue = (coin: TopCoin, key: string): string | number | null => {
+    switch (key) {
+      case 'price': // Если ключ - 'price', извлекаем цену
+        return parseFloat(coin.DISPLAY?.USD?.PRICE?.replace(/[^0-9.-]/g, '') || '0');
+      case 'change': // Если ключ - 'change', извлекаем изменение за 24 часа
+        return parseFloat(coin.DISPLAY?.USD?.CHANGEPCT24HOUR || '0');
+      case 'marketCap': // Если ключ - 'marketCap', извлекаем капитализацию
+        return parseFloat(coin.DISPLAY?.USD?.MKTCAP?.replace(/[^0-9.-]/g, '') || '0');
+      case 'volume': // Если ключ - 'volume', извлекаем объем торгов за 24 часа
+        return parseFloat(coin.DISPLAY?.USD?.TOTALVOLUME24H?.replace(/[^0-9.-]/g, '') || '0');
+      default: // Для других ключей возвращаем null
+        return null;
+    }
+  };
+
+  // Компьютед для сортировки данных
+  const sortedData = computed(() => {
+    // Если ключ сортировки не задан, возвращаем оригинальные данные
+    if (!sortKey.value) return props.topCoins;
+
+    // Создаем копию данных, чтобы не мутировать оригинальный массив
+    const data = [...props.topCoins];
+
+    data.sort((a, b) => {
+      // Проверяем, что sortKey не равен null перед использованием
+      if (!sortKey.value) return 0; 
+
+      // Извлекаем значение для объекта A
+      const valueA = extractSortableValue(a, sortKey.value);
+      // Извлекаем значение для объекта B
+      const valueB = extractSortableValue(b, sortKey.value);
+
+      // Если значения не определены, оставляем их в исходном порядке
+      if (valueA === null || valueB === null) return 0;
+
+      // Сравниваем числа
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return sortOrder.value === 'asc' ? valueA - valueB : valueB - valueA;
+      }
+
+      // Сравниваем строки
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortOrder.value === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+      // Если типы данных не совместимы, возвращаем 0
+      return 0;
+    });
+    // Возвращаем отсортированный массив
+    return data;
+  });
+
+  // Функция для переключения порядка сортировки
+  const toggleSort = (key: string) => {
+    if (sortKey.value === key) {
+      // Если ключ уже выбран, переключаем порядок сортировки
+      if (sortOrder.value === 'asc') {
+        sortOrder.value = 'desc';
+      } else {
+        // Если уже был 'desc', сбрасываем сортировку
+        sortKey.value = null;
+        sortOrder.value = 'asc';
+      }
+    } else {
+      // Если выбран новый ключ, устанавливаем его и порядок по возрастанию
+      sortKey.value = key;
+      sortOrder.value = 'asc';
+    }
+  };
+
+  const tableData = computed(() =>
+    sortedData.value.map(coin => ({
+      name: coin.CoinInfo.Name,
+      imageUrl: coin.CoinInfo.ImageUrl,
+      price: coin.DISPLAY?.USD?.PRICE,
+      change: `${coin.DISPLAY?.USD?.CHANGEPCT24HOUR}%`,
+      marketCap: coin.DISPLAY?.USD?.MKTCAP,
+      volume: coin.DISPLAY?.USD?.TOTALVOLUME24H,
+    })),
+  );
 </script>
 
 <template>
-  <div v-if="topCoins.length > 0" class="dashboard">
-    <div class="dashboard__header">
-      <app-title>Top 10 сryptocurrencies</app-title>
-      <router-link to="/сoins">
+  <div v-if="props.topCoins.length > 0" class="crypto-table">
+    <div class="crypto-table__header">
+      <app-title>Top 10 Cryptocurrencies</app-title>
+      <router-link to="/coins">
         <app-link>View all</app-link>
       </router-link>
     </div>
-    <div class="dashboard__body">
-      <app-table :data="tableData" :columns="visibleColumns">
+    <div class="crypto-table__body">
+      <app-table
+        :data="tableData"
+        :columns="visibleColumns"
+        @sort="toggleSort"
+        :sort-key="sortKey"
+        :sort-order="sortOrder"
+      >
         <template #name="{ row }">
           <div class="row">
             <app-image-coins :imageUrl="String(row.imageUrl)" />
@@ -80,11 +163,9 @@
         <template #price="{ row }">
           <app-coin-price :coinName="String(row.name)" />
         </template>
-
         <template #marketCap="{ row }">
           <AppCoinMarketCap :coinName="String(row.name)" />
         </template>
-
         <template #volume="{ row }">
           <app-coin-volume :coinName="String(row.name)" />
         </template>
@@ -94,20 +175,20 @@
 </template>
 
 <style scoped>
-  .dashboard {
+  .crypto-table {
     margin-top: 40px
   }
-  .dashboard__header {
+  .crypto-table__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
     max-width: 1170px;
   }
-  .dashboard__header .link {
+  .crypto-table__header .link {
     min-width: 76px;
   }
-  .dashboard__body {
+  .crypto-table__body {
     margin-top: 30px;
     display: flex;
     align-items: center;
@@ -126,7 +207,7 @@
     width: 100%;
   }
   @media (max-width: 480px) {
-    .dashboard__body {
+    .crypto-table__body {
       margin-top: 20px;
     }
   }

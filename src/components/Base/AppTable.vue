@@ -1,16 +1,20 @@
 <script setup lang="ts">
-  // Интерфейсы для данных таблицы
+  // Интерфейс для определения структуры колонок таблицы
   interface Column {
-    label: string; // Заголовок колонки
-    key: string; // Ключ для доступа к данным (например, "name", "price")
-    slotName?: string; // Опционально: имя слота для кастомного рендера
+    label: string; // Текст заголовка колонки (например, "Name", "Price")
+    key: string; // Уникальный ключ для идентификации данных в колонке
+    slotName?: string; // (Опционально) Имя слота для рендеринга пользовательского содержимого
+    sortable?: boolean; // Указывает, можно ли сортировать данные в данной колонке
   }
 
-  // Таблица принимает данные универсального типа T
+  // Интерфейс свойств компонента таблицы с поддержкой универсального типа T
   interface TableProps<T = Record<string, unknown>> {
-    data: T[];
-    columns: Column[];
-    onRowClick?: (row: T) => void;
+    data: T[]; // Данные, которые будут отображаться в таблице, массив объектов типа T
+    columns: Column[]; // Массив колонок с настройками отображения и сортировки
+    sortKey?: string | null; // (Опционально) Ключ активной сортировки; null означает, что сортировка отключена
+    sortOrder?: 'asc' | 'desc'; // (Опционально) Текущий порядок сортировки: по возрастанию или по убыванию
+    onSort?: (key: string) => void; // (Опционально) Функция, вызываемая при изменении ключа сортировки
+    onRowClick?: (row: T) => void; // (Опционально) Функция, вызываемая при клике на строку таблицы
   }
 
   // Указываем дженерик T с типом по умолчанию
@@ -28,24 +32,36 @@
     <!-- Заголовки таблицы -->
     <div class="the-table__header">
       <div
-        v-for="column in columns"
+        v-for="column in props.columns"
         :key="column.key"
-        class="the-table__column"
+        class="the-table__column the-table__header-column"
+        :class="{ 'sortable': column.sortable }"
+        @click="column.sortable && props.onSort?.(column.key)"
       >
-        {{ column.label }}
+        <span>{{ column.label }}</span>
+        <!-- Добавляем стрелочки для сортируемых колонок -->
+        <span v-if="column.sortable" class="sort-indicator">
+          <!-- Показываем стрелку для текущего ключа сортировки -->
+          <span v-if="props.sortKey === column.key">
+            <span v-if="props.sortOrder === 'asc'">▲</span>
+            <span v-else>▼</span>
+          </span>
+          <!-- Показать стрелку "по умолчанию", если сортировка неактивна -->
+          <span v-else>⇅</span>
+        </span>
       </div>
     </div>
-    
+
     <!-- Данные таблицы -->
     <div class="the-table__body">
       <div
-        v-for="(row, rowIndex) in data"
+        v-for="(row, rowIndex) in props.data"
         :key="rowIndex"
         class="the-table__item"
         @click="onRowClick(row)"
       >
         <div
-          v-for="column in columns"
+          v-for="column in props.columns"
           :key="column.key"
           class="the-table__column"
         >
@@ -66,6 +82,13 @@
 </template>
 
 <style scoped>
+  .sort-indicator {
+    display: inline-flex;
+    margin-left: 5px;
+    font-size: 12px;
+    color: var(--color-yellow);
+  }
+
   .the-table {
     display: grid;
     gap: 10px;
