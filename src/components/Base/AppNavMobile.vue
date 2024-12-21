@@ -132,4 +132,9 @@
       opacity: 0;
     }
   }
+  @media (max-width: 480px) {
+    .nav-modile {
+      max-width: 100%;
+    }
+  }
 </style>
