@@ -88,8 +88,7 @@
     height="100vh" 
   />
   <div v-else>
-    <trending-coins-list 
-      v-bind="trendingCoins" />
+    <trending-coins-list v-bind="trendingCoins" />
     <crypto-table :topCoins="topCoins" />
     <dashboard-chart :topCoins="topCoins" />
     <crypto-exchanges :exchanges="exchanges" />

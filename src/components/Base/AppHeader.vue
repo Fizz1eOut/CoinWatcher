@@ -1,42 +1,20 @@
 <script setup lang="ts">
-  import { ref, onMounted, onBeforeUnmount } from 'vue';
+  import { ref } from 'vue';
   import AppContainer from '@/components/Base/AppContainer.vue';
   import AppFavorites from '@/components/Base/AppFavorites.vue';
   import AppInput from '@/components/Inputs/AppInput.vue';
   import AppNav from '@/components/Base/AppNav.vue';
   import AppNavMobile from '@/components/Base/AppNavMobile.vue';
   import AppBurger from '@/components/Base/AppBurger.vue';
-
-  // Определяем тип для события медиазапроса
-  interface MediaQueryEvent extends Event {
-    matches: boolean;
-  }
+  import { useMediaQuery } from '@/composables/useMediaQuery';
 
   const open = ref<boolean>(false);
-  const isMobile = ref(false);
-  const mediaQueryList = window.matchMedia('(max-width: 768px)');
+  const { isMobile } = useMediaQuery('(max-width: 768px)');
   const text = ref<string | number>('');
-
-  // Обработчик изменения состояния медиазапроса
-  const handleMediaChange = (event: MediaQueryEvent) => {
-    isMobile.value = event.matches;
-  };
 
   const closeBurger = (): void => {
     open.value = false;
   };
-
-  onMounted(() => {
-    // Инициализация значения isMobile при монтировании компонента
-    handleMediaChange({ matches: mediaQueryList.matches } as MediaQueryEvent);
-    // Подписываемся на событие изменения медиазапроса
-    mediaQueryList.addEventListener('change', handleMediaChange);
-  });
-
-  onBeforeUnmount(() => {
-    // Отписываемся от события изменения медиазапроса
-    mediaQueryList.removeEventListener('change', handleMediaChange);
-  });
 </script>
 
 
