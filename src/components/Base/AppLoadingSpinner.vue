@@ -1,24 +1,31 @@
 <script setup lang="ts">
+  import { computed } from 'vue';
+
   interface LoadingSpinnerProps {
-    size?: string;        // Размер спиннера (например, "50px")
-    borderWidth?: string; // Толщина обводки (например, "5px")
-    height?: string;      // Высота контейнера (например, "100%")
+    size?: string;
+    borderWidth?: string;
+    height?: string;
   }
 
   // Определяем пропсы
-  defineProps<LoadingSpinnerProps>();
+  const props = defineProps<LoadingSpinnerProps>();
+
+  // Создаем вычисляемый объект стилей для контейнера
+  const containerStyle = computed(() => ({
+    height: props.height
+  }));
+
+  // Создаем вычисляемый объект стилей для спиннера
+  const spinnerStyle = computed(() => ({
+    width: props.size,
+    height: props.size,
+    borderWidth: props.borderWidth,
+  }));
 </script>
 
 <template>
-  <div class="loader" :style="{ height: height }">
-    <div
-      class="spinner"
-      :style="{
-        width: size,
-        height: size,
-        borderWidth: borderWidth,
-      }"
-    ></div>
+  <div class="loader" :style="containerStyle">
+    <div class="spinner" :style="spinnerStyle"></div>
   </div>
 </template>
 
