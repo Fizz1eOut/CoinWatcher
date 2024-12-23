@@ -16,7 +16,7 @@
 </script>
 
 <template>
-  <div v-if="topGainers.length > 0" class="trending-coint">
+  <div v-if="topGainers?.length > 0 || topLosers?.length > 0" class="trending-coint">
     <div class="trending-coint__header">
       <app-title>
         Trending cryptocurrencies

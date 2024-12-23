@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { ref, onMounted } from 'vue';
-  import { getMarketOverview } from '@/api/coins/marketOverview';
+  import { getTopCoins } from '@/api/coins/topCoins';
   import { getHistoricalMarketCaps } from '@/api/coins/marketCaps'; // Импорт вашей функции
-  import type { TopCoinsResponse, TopCoin } from '@/interface/topCoins.interface';
+  import type { TopCoin } from '@/interface/topCoins.interface';
   import type { MarketCapEntry } from '@/interface/marketCaps.interface';
   import MarketOverviewChart from '@/components/Content/MarketOverviewChart.vue';
   import AppButton from '@/components/Base/AppButton.vue';
@@ -23,8 +23,8 @@
   // Получение данных при загрузке компонента
   const fetchMarketOverview = async () => {
     try {
-      const data = (await getMarketOverview()) as TopCoinsResponse;
-      marketData.value = data.Data;
+      const data = (await getTopCoins());
+      marketData.value = data.Data.slice(0, 10);
 
       // Извлечение символов криптовалют
       const symbols = marketData.value.map((coin) => coin.CoinInfo.Name);

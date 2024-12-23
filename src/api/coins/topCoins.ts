@@ -1,7 +1,15 @@
 import { fetchData } from '@/components/modules/http';
+import type { TopCoinsResponse } from '@/interface/topCoins.interface';
 
-// Функция для получения топовых криптовалют
-export const getTopCoins = async (limit: number = 50, page: number = 0) => {
-  const url = `${import.meta.env.VITE_BASE_URL}data/top/mktcapfull?limit=${limit}&tsym=USD&page=${page}&api_key=${import.meta.env.VITE_API_KEY}`;
-  return fetchData(url);
+export const getTopCoins = async (): Promise<TopCoinsResponse> => {
+  const url = `${import.meta.env.VITE_BASE_URL}data/top/mktcapfull?limit=50&tsym=USD&api_key=${import.meta.env.VITE_API_KEY}`;
+  const data = await fetchData<TopCoinsResponse>(url);
+
+  // Фильтрация валют с наличием DISPLAY
+  const filteredData = {
+    ...data,
+    Data: data.Data.filter((coin) => coin.DISPLAY),
+  };
+
+  return filteredData;
 };

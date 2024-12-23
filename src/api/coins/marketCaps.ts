@@ -1,5 +1,5 @@
 import { fetchData } from '@/components/modules/http';
-import type { HistoricalData, MarketCapEntry } from '@/interface/marketCaps.interface'
+import type { HistoricalData, MarketCapEntry } from '@/interface/marketCaps.interface';
 
 // Функция для получения исторических данных по отдельным криптовалютам
 // symbols - массив символов криптовалют, для которых нужно получить данные
