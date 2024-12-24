@@ -2,6 +2,7 @@
   import { ref, onMounted, onUnmounted, watch } from 'vue';
   import { webSocketService } from '@/api/webSocket/websocketService';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
+  import { formatPrice } from '@/utils/numberFormatter';
 
   interface AppCoinPriceProps {
     coinName: string; // Имя монеты
@@ -50,19 +51,6 @@
       isLoading.value = true;
     }
   );
-
-  // Функция для форматирования цены
-  const formatPrice = (value: number | null): string => {
-    if (value === null) {
-      return 'N/A';
-    }
-    if (value >= 0.01) {
-      return value.toFixed(4);
-    } else if (value > 0) {
-      return value.toFixed(8);
-    }
-    return '0.00';
-  };
 </script>
 
 <template>
