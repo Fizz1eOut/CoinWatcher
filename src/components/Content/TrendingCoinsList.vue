@@ -21,7 +21,7 @@
       <app-title>
         Trending cryptocurrencies
       </app-title>
-      <router-link to="/сoins">
+      <router-link to="/coins">
         <app-link>View all</app-link>
       </router-link>
     </div>

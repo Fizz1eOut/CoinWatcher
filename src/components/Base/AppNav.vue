@@ -14,7 +14,7 @@
       </div>
 
       <div class="nav__item">
-        <router-link to="/сoins">
+        <router-link to="/coins">
           <app-link>
             Coins
           </app-link>

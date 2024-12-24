@@ -35,7 +35,7 @@
           </div>
 
           <div class="nav-mobile__item">
-            <router-link to="/сoins">
+            <router-link to="/coins">
               <app-link @click="close">
                 Coins
               </app-link>
