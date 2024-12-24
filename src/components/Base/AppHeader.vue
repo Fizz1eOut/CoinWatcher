@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import AppContainer from '@/components/Base/AppContainer.vue';
-  import AppFavorites from '@/components/Base/AppFavorites.vue';
+  import AppBriefcase from '@/components/Base/AppBriefcase.vue';
   import AppInput from '@/components/Inputs/AppInput.vue';
   import AppNav from '@/components/Base/AppNav.vue';
   import AppNavMobile from '@/components/Base/AppNavMobile.vue';
@@ -41,9 +41,9 @@
           <div class="header__input">
             <app-input placeholder="BTC" v-model="text" />
           </div>
-          <div class="header__favorites favorites">
-            <router-link to="/favorites">
-              <app-favorites />
+          <div class="header__briefcase briefcase">
+            <router-link to="/briefcase">
+              <app-briefcase />
             </router-link>
           </div>
         </div>
