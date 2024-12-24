@@ -132,7 +132,12 @@
       font-size: 14px;
     }
   }
-
+  @media (max-width: 499px) {
+    .the-table__column {
+      padding: 8px;
+      font-size: 13px;
+    }
+  }
   @media (max-width: 360px) {
     .the-table__header,
     .the-table__item {

@@ -53,6 +53,13 @@
 </template>
 
 <style scoped>
+  .header {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    background-color: rgba(20, 22, 39, 0.7);
+    backdrop-filter: blur(4px);
+  }
   .header__body {
     display: flex;
     align-items: center;
@@ -71,6 +78,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    z-index: 10;
   }
   .header__input {
     width: 200px;
