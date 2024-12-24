@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { defineProps } from 'vue';
   import AppImageCoin from '@/components/Base/AppImageCoin.vue';
-  import AppCoinPrice from '@/components/Base/AppCoinPrice.vue';
+  import AppCoinData from '@/components/Base/AppCoinData.vue';
   import type { TopCoin } from '@/interface/topCoins.interface';
 
   defineProps<{ coin: TopCoin }>();
@@ -17,7 +17,7 @@
       </div>
       <div class="app-coint__row">
         <div class="app-coint__price">
-          <app-coin-price :coinName="coin.CoinInfo.Name" />
+          <app-coin-data :coinName="coin.CoinInfo.Name" dataType="price" />
         </div>
         <div class="app-coint__change">{{ coin.DISPLAY?.USD?.CHANGEPCT24HOUR }}%</div>
       </div>

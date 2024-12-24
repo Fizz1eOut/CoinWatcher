@@ -4,10 +4,8 @@
   import AppTitle from '@/components/Base/AppTitle.vue';
   import AppTable from '@/components/Base/AppTable.vue';
   import AppImageCoins from '@/components/Base/AppImageCoin.vue';
-  import AppCoinPrice from '@/components/Base/AppCoinPrice.vue';
-  import AppCoinVolume from '@/components/Base/AppCoinVolume.vue';
-  import AppCoinMarketCap from '@/components/Base/AppCoinMarketCap.vue';
   import AppLink from '@/components/Base/AppLink.vue';
+  import AppCoinData from '@/components/Base/AppCoinData.vue';
 
   // Интерфейс для пропсов
   interface CryptoTableProps {
@@ -161,13 +159,13 @@
           </div>
         </template>
         <template #price="{ row }">
-          <app-coin-price :coinName="String(row.name)" />
+          <app-coin-data :coinName="String(row.name)" dataType="price" />
         </template>
         <template #marketCap="{ row }">
-          <AppCoinMarketCap :coinName="String(row.name)" />
+          <app-coin-data :coinName="String(row.name)" dataType="marketCap" />
         </template>
         <template #volume="{ row }">
-          <app-coin-volume :coinName="String(row.name)" />
+          <app-coin-data :coinName="String(row.name)" dataType="volume24h" />
         </template>
       </app-table>
     </div>
