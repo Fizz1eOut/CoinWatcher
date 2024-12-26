@@ -14,7 +14,6 @@
   watch(
     () => props.name,
     () => {
-      console.log('Available icons:', Object.keys(icons));
       const iconPath = Object.entries(icons).find(([k]) =>
         k.endsWith(`/assets/icons/${props.name}.svg`)
       );
@@ -42,10 +41,13 @@
   <div v-else class="icon-placeholder">Icon not found</div>
 </template>
 
-<style scoped>
+<style>
   .icon {
     fill: currentColor;
     display: inline-block;
+  }
+  .icon path {
+    fill: currentColor;
   }
 </style>
 

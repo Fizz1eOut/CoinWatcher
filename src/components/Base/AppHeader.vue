@@ -78,9 +78,14 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    z-index: 10;
+    z-index: 8;
   }
   .header__input {
     width: 200px;
+  }
+  @media (max-width: 499px) {
+    .header__group  {
+      z-index: 9;
+    }
   }
 </style>

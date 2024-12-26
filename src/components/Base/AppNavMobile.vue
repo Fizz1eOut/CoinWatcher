@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import AppLink from '@/components/Base/AppLink.vue';
   import AppContainer from '@/components/Base/AppContainer.vue';
+  import AppIcon from '@/components/Base/AppIcon.vue';
+  import AppBriefcase from '@/components/Base/AppBriefcase.vue';
 
   interface NavMobileProps {
     open: boolean;
@@ -27,50 +29,108 @@
       <app-container>
         <div class="nav-mobile__body">
           <div class="nav-mobile__item">
-            <router-link to="/">
-              <app-link class="nav-mobile__link" @click="close">
-                Home
-              </app-link>
+            <router-link to="/" @click="close">
+              <div class="nav-mobile__row">
+                <app-icon 
+                  name="home" 
+                  size="24px" 
+                  style="color: var(--color-white)"
+                  class="icon" 
+                />
+                <app-link class="nav-mobile__link">
+                  Home
+                </app-link>
+              </div>
             </router-link>
           </div>
 
           <div class="nav-mobile__item">
-            <router-link to="/coins">
-              <app-link @click="close">
-                Coins
-              </app-link>
+            <router-link to="/coins" @click="close">
+              <div class="nav-mobile__row">
+                <app-icon 
+                  name="coins" 
+                  size="24px" 
+                  style="color: var(--color-white)"
+                  class="icon" 
+                />
+                <app-link class="nav-mobile__link">
+                  Coins
+                </app-link>
+              </div>
             </router-link>
           </div>
 
           <div class="nav-mobile__item">
-            <router-link to="/exchangers">
-              <app-link @click="close">
-                Exchangers
-              </app-link>
+            <router-link to="/exchangers" @click="close">
+              <div class="nav-mobile__row">
+                <app-icon 
+                  name="exchanger" 
+                  size="24px" 
+                  style="color: var(--color-white)"
+                  class="icon" 
+                />
+                <app-link class="nav-mobile__link">
+                  Exchangers
+                </app-link>
+              </div>
             </router-link>
           </div>
 
           <div class="nav-mobile__item">
-            <router-link to="/converter">
-              <app-link @click="close">
-                Converter
-              </app-link>
+            <router-link to="/converter" @click="close">
+              <div class="nav-mobile__row">
+                <app-icon 
+                  name="converter" 
+                  size="24px" 
+                  style="color: var(--color-white)"
+                  class="icon" 
+                />
+                <app-link class="nav-mobile__link">
+                  Converter
+                </app-link>
+              </div>
             </router-link>
           </div>
 
           <div class="nav-mobile__item">
-            <router-link to="/comparison">
-              <app-link @click="close">
-                Comparison
-              </app-link>
+            <router-link to="/comparison" @click="close">
+              <div class="nav-mobile__row">
+                <app-icon 
+                  name="comparison" 
+                  size="24px" 
+                  style="color: var(--color-white)"
+                  class="icon" 
+                />
+                <app-link class="nav-mobile__link">
+                  Comparison
+                </app-link>
+              </div>
             </router-link>
           </div>
 
           <div class="nav-mobile__item">
-            <router-link to="/news">
-              <app-link @click="close">
-                News
-              </app-link>
+            <router-link to="/news" @click="close">
+              <div class="nav-mobile__row">
+                <app-icon 
+                  name="news" 
+                  size="24px" 
+                  style="color: var(--color-white)"
+                  class="icon" 
+                />
+                <app-link class="nav-mobile__link">
+                  News
+                </app-link>
+              </div>
+            </router-link>
+          </div>
+          <div class="nav-mobile__item">
+            <router-link to="/briefcase" @click="close">
+              <div class="nav-mobile__row">
+                <app-briefcase />
+                <app-link class="nav-mobile__link">
+                  Briefcase
+                </app-link>
+              </div>
             </router-link>
           </div>
         </div>
@@ -80,7 +140,18 @@
 </template>
 
 <style scoped>
-  .router-link-active .link {
+  .nav-mobile__row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .nav-mobile__row .nav-mobile__link {
+    font-size: 20px;
+  }
+  .nav-mobile__link {
+    pointer-events: none;
+  }
+  .router-link-active .nav-mobile__link {
     transition: background 0.3s ease-in-out;
     cursor: pointer;
     background: var(--color-gradient-hover);
@@ -89,7 +160,7 @@
     position: relative;
   }
 
-  .router-link-active .link::after {
+  .router-link-active .nav-mobile__link::after {
     content: '';
     position: absolute;
     left: 0;
@@ -119,7 +190,7 @@
       margin-top: 80px;
     }
     .nav-mobile__body >*:not(:last-child) {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
     .v-enter-active,
@@ -132,7 +203,7 @@
       opacity: 0;
     }
   }
-  @media (max-width: 480px) {
+  @media (max-width: 499px) {
     .nav-modile {
       max-width: 100%;
     }
