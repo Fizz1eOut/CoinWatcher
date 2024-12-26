@@ -87,6 +87,7 @@
     margin-left: 5px;
     font-size: 12px;
     color: var(--color-yellow);
+    cursor: pointer;
   }
 
   .the-table {

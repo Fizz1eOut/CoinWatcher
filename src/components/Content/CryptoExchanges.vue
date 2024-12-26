@@ -31,8 +31,8 @@
   const columns = [
     { label: 'Name', key: 'name', slotName: 'name' },
     { label: 'Country', key: 'country' },
-    { label: '24h Volume', key: 'volume' },
-    { label: 'Rating', key: 'gradePoints' },
+    { label: '24h Volume', key: 'volume', sortable: true },
+    { label: 'Rating', key: 'gradePoints', sortable: true },
     { label: 'Trading Enabled', key: 'trades', slotName: 'trades' },
   ];
 
@@ -48,18 +48,90 @@
     // Для экранов шире 802px показываем все колонки
     return columns;
   });
+  
+  const sortKey = ref<string | null>(null);
+  const sortOrder = ref<'asc' | 'desc'>('asc');
 
+  // Функция для извлечения сортируемого значения из объекта монеты на основе заданного ключа.
+  const extractSortableValue = (exchange: ExchangeData, key: string): string | number | null => {
+    switch (key) {
+      case 'gradePoints': // Если ключ - 'gradePoints', извлекаем изменение за 24 часа
+        return parseFloat(exchange.GradePoints || '0');
+      case 'volume': // Если ключ - 'volume', извлекаем объем торгов за 24 часа
+        return parseFloat(exchange.DISPLAYTOTALVOLUME24H?.BTC?.replace(/[^0-9.-]/g, '') || '0');
+      default: // Для других ключей возвращаем null
+        return null;
+    }
+  };
+
+  // Компьютед для сортировки данных
+  const sortedData = computed(() => {
+    // Если ключ сортировки не задан, возвращаем оригинальные данные
+    if (!sortKey.value) return props.exchanges;
+
+    // Создаем копию данных, чтобы не мутировать оригинальный массив
+    const data = [...props.exchanges];
+
+    data.sort((a, b) => {
+      // Проверяем, что sortKey не равен null перед использованием
+      if (!sortKey.value) return 0; 
+
+      // Извлекаем значение для объекта A
+      const valueA = extractSortableValue(a, sortKey.value);
+      // Извлекаем значение для объекта B
+      const valueB = extractSortableValue(b, sortKey.value);
+
+      // Если значения не определены, оставляем их в исходном порядке
+      if (valueA === null || valueB === null) return 0;
+
+      // Сравниваем числа
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return sortOrder.value === 'asc' ? valueA - valueB : valueB - valueA;
+      }
+
+      // Сравниваем строки
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortOrder.value === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+      // Если типы данных не совместимы, возвращаем 0
+      return 0;
+    });
+    // Возвращаем отсортированный массив
+    return data;
+  });
+
+  // Функция для переключения порядка сортировки
+  const toggleSort = (key: string) => {
+    if (sortKey.value === key) {
+      // Если ключ уже выбран, переключаем порядок сортировки
+      if (sortOrder.value === 'asc') {
+        sortOrder.value = 'desc';
+      } else {
+        // Если уже был 'desc', сбрасываем сортировку
+        sortKey.value = null;
+        sortOrder.value = 'asc';
+      }
+    } else {
+      // Если выбран новый ключ, устанавливаем его и порядок по возрастанию
+      sortKey.value = key;
+      sortOrder.value = 'asc';
+    }
+  };
 
   // Подготовка данных для таблицы
-  const tableData = props.exchanges.map(exchange => ({
-    logo: exchange.LogoUrl,
-    name: exchange.Name,
-    country: exchange.Country,
-    volume: exchange.DISPLAYTOTALVOLUME24H?.BTC,
-    gradePoints: `${exchange.GradePoints}%`,
-    trades: exchange.Trades,
-    website: exchange.AffiliateURL
-  }));
+  const tableData = computed(() =>
+    sortedData.value.map(exchange => ({
+      logo: exchange.LogoUrl,
+      name: exchange.Name,
+      country: exchange.Country,
+      volume: exchange.DISPLAYTOTALVOLUME24H?.BTC,
+      gradePoints: `${exchange.GradePoints}%`,
+      trades: exchange.Trades,
+      website: exchange.AffiliateURL
+    }))
+  );
 
   watch(() => screenWidth.value, () => {
   });
@@ -83,9 +155,12 @@
     </div>
     <div class="exchanges__body">
       <app-table 
-        :data="tableData" 
-        :columns="visibleColumns" 
+        :data="tableData"
+        :columns="visibleColumns"
+        :sort-key="sortKey"
+        :sort-order="sortOrder"
         :onRowClick="handleExchangeRowClick"
+        @sort="toggleSort"
       >
         <template #name="{ row }">
           <div class="exchanges__row">
