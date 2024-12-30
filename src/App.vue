@@ -10,7 +10,7 @@
       <app-header />
     </header>
 
-    <main>
+    <main class="main">
       <app-container>
         <router-view />
       </app-container>
@@ -23,5 +23,7 @@
 </template>
 
 <style scoped>
-
+  .main {
+    padding-top: 80px;
+  }
 </style>

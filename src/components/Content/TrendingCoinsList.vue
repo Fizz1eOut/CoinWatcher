@@ -60,9 +60,6 @@
 </template>
 
 <style scoped>
-  .trending-coint {
-    padding-top: 80px;
-  }
   .trending-coint__header {
     display: flex;
     align-items: center;

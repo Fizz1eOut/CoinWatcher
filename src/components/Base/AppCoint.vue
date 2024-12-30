@@ -9,20 +9,22 @@
 </script>
 
 <template>
-  <div class="app-coint">
-    <div class="app-coint__group">
-      <div class="app-coint__name">
-        <app-image-coin class="app-coint__image" :imageUrl="coin.CoinInfo.ImageUrl" />
-        {{ coin.CoinInfo.Name }}:
-      </div>
-      <div class="app-coint__row">
-        <div class="app-coint__price">
-          <app-coin-data :coinName="coin.CoinInfo.Name" dataType="price" />
+  <router-link :to="{ name: 'CoinDetailView', params: { name: coin.CoinInfo.Name } }">
+    <div class="app-coint">
+      <div class="app-coint__group">
+        <div class="app-coint__name">
+          <app-image-coin class="app-coint__image" :imageUrl="coin.CoinInfo.ImageUrl" />
+          {{ coin.CoinInfo.Name }}:
         </div>
-        <div class="app-coint__change">{{ coin.DISPLAY?.USD?.CHANGEPCT24HOUR }}%</div>
+        <div class="app-coint__row">
+          <div class="app-coint__price">
+            <app-coin-data :coinName="coin.CoinInfo.Name" dataType="price" />
+          </div>
+          <div class="app-coint__change">{{ coin.DISPLAY?.USD?.CHANGEPCT24HOUR }}%</div>
+        </div>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <style scoped>
@@ -36,6 +38,7 @@
     justify-content: space-between;
     gap: 10px;
     width: 100%;
+    color: var(--color-white);
   }
   .app-coint__name {
     width: 75%;

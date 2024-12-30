@@ -1,6 +1,7 @@
 // Интерфейс описывает информацию о криптовалюте
 export interface CoinInfo {
   Name: string; // Название криптовалюты (например, "BTC" для Bitcoin)
+  Id: string
   ImageUrl: string;
 }
 
