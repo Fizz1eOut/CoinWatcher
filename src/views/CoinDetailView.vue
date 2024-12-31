@@ -3,6 +3,8 @@
   import { useRoute } from 'vue-router';
   import { getCoinSearch } from '@/api/coins/coinSearch';
   import type { CoinDetail } from '@/interface/coinSearch.interface';
+  import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
+  import CoinDetails from '@/components/Content/CoinDetails/CoinDetails.vue';
 
   interface CoinDetailProps {
     name: string;
@@ -11,7 +13,7 @@
   defineProps<CoinDetailProps>();
 
   // Состояния компонента
-  const coin = ref<CoinDetail>();
+  const coin = ref<CoinDetail | null>(null);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
@@ -25,7 +27,6 @@
 
     try {
       const data = await getCoinSearch(name);
-      console.log(data);
 
       if (data && data.RAW && data.RAW[name]) {
         coin.value = {
@@ -33,7 +34,6 @@
           ImageUrl: data.RAW[name].USD.IMAGEURL,
           DISPLAY: data.RAW[name].USD,
         };
-        console.log(coin.value);
       } else {
         error.value = `Cryptocurrency "${name}" not found.`;
       }
@@ -58,24 +58,13 @@
 </script>
 
 <template>
-  <div>
-    <h1>Coin Detail View</h1>
+  <app-loading-spinner 
+    v-if="isLoading" 
+    class="loader" 
+    size="70px"
+    borderWidth="7px"
+    height="100vh" 
+  />
 
-    <!-- Loading State -->
-    <div v-if="isLoading">Loading...</div>
-
-    <!-- Error State -->
-    <div v-if="error" class="error">{{ error }}</div>
-
-    <!-- Coin Details -->
-    <div v-if="coin">
-      <h2>{{ coin.Name }}</h2>
-      <img :src="'https://www.cryptocompare.com' + coin.ImageUrl" alt="Coin Image" />
-      <ul>
-        <li><strong>Market Cap:</strong> {{ coin.DISPLAY.MKTCAP }}</li>
-        <li><strong>24h Volume:</strong> {{ coin.DISPLAY.TOTALVOLUME24H }}</li>
-        <li><strong>Change (24h):</strong> {{ coin.DISPLAY.CHANGEPCT24HOUR }}%</li>
-      </ul>
-    </div>
-  </div>
+  <coin-details :coin="coin" />
 </template>
