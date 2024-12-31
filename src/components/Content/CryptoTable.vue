@@ -6,6 +6,7 @@
   import AppImageCoins from '@/components/Base/AppImageCoin.vue';
   import AppLink from '@/components/Base/AppLink.vue';
   import AppCoinData from '@/components/Base/AppCoinData.vue';
+  import { useRouter } from 'vue-router';
 
   // Интерфейс для пропсов
   interface CryptoTableProps {
@@ -134,6 +135,14 @@
       volume: coin.DISPLAY?.USD?.TOTALVOLUME24H,
     })),
   );
+
+  const router = useRouter();
+  const handleRowClick = (row: Record<string, unknown>) => {
+    // Проверяем, есть ли поле `name`, характерное для монет
+    if (row.name) {
+      router.push({ name: 'CoinDetailView', params: { name: String(row.name) } });
+    }
+  };
 </script>
 
 <template>
@@ -151,6 +160,7 @@
         @sort="toggleSort"
         :sort-key="sortKey"
         :sort-order="sortOrder"
+        :onRowClick="handleRowClick"
       >
         <template #name="{ row }">
           <div class="row">
