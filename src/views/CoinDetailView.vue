@@ -2,6 +2,8 @@
   import { ref, onMounted, watch } from 'vue';
   import { useRoute } from 'vue-router';
   import { getCoinSearch } from '@/api/coins/coinSearch';
+  import { getHistoricalMarketCaps } from '@/api/coins/marketCaps';
+  import type { HistoricalData } from '@/interface/marketCaps.interface';
   import type { CoinDetail } from '@/interface/coinSearch.interface';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
   import CoinDetails from '@/components/Content/CoinDetails/CoinDetails.vue';
@@ -9,50 +11,61 @@
   interface CoinDetailProps {
     name: string;
   }
-
   defineProps<CoinDetailProps>();
 
-  // Состояния компонента
   const coin = ref<CoinDetail | null>(null);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
-
-  // Получение данных из маршрута
+  const historicalData = ref<HistoricalData[]>([]);
   const route = useRoute();
 
-  // Функция для загрузки данных
   const fetchCoinDetails = async (name: string) => {
     isLoading.value = true;
     error.value = null;
 
     try {
       const data = await getCoinSearch(name);
-
       if (data && data.RAW && data.RAW[name]) {
         coin.value = {
           Name: name,
           ImageUrl: data.RAW[name].USD.IMAGEURL,
           DISPLAY: data.RAW[name].USD,
         };
-      } else {
-        error.value = `Cryptocurrency "${name}" not found.`;
       }
     } catch (err) {
       console.error('Failed to fetch data.', err);
-      error.value = 'An error occurred while fetching data.';
-    } finally {
-      isLoading.value = false;
     }
   };
 
-  onMounted(() => {
-    fetchCoinDetails(route.params.name as string);
+  const fetchCoinHistoricalData = async (name: string) => {
+    try {
+      if (!name) {
+        console.warn('No coin symbol provided!');
+        return;
+      }
+
+      isLoading.value = true;
+      const marketCaps = await getHistoricalMarketCaps([name]);
+      const coinData = marketCaps.find((entry) => entry.symbol === name);
+
+      historicalData.value = coinData?.history || [];
+    } catch (error) {
+      console.error(`Error fetching historical data for ${name}:`, error);
+    }
+  };
+
+  onMounted(async () => {
+    await fetchCoinDetails(route.params.name as string);
+    await fetchCoinHistoricalData(route.params.name as string);
+
+    isLoading.value = false;
   });
 
   watch(
     () => route.params.name,
     (newName) => {
       if (newName) fetchCoinDetails(newName as string);
+      if (newName) fetchCoinHistoricalData(newName as string);
     }
   );
 </script>
@@ -65,6 +78,5 @@
     borderWidth="7px"
     height="100vh" 
   />
-
-  <coin-details :coin="coin" />
+  <coin-details v-else :coin="coin" :historical-data="historicalData"/>
 </template>

@@ -1,35 +1,45 @@
 <script setup lang="ts">
   import type { CoinDetail } from '@/interface/coinSearch.interface';
+  import type { HistoricalData } from '@/interface/marketCaps.interface';
   import CoinSidebar from '@/components/Content/CoinDetails/CoinSidebar.vue';
   import CoinOverview from '@/components/Content/CoinDetails/CoinOverview.vue';
+  import HistoricalChart from '@/components/Content/HistoricalChart.vue';
 
-  interface trendingCoins {
+  interface CoinDetailProps {
     coin: CoinDetail | null;
+    historicalData: HistoricalData[];
   }
-  defineProps<trendingCoins>();
+
+  defineProps<CoinDetailProps>();
 </script>
 
 <template>
   <div v-if="coin" class="coin-details">
-    <coin-sidebar :coin="coin" />
-    <coin-overview :coin="coin" />
+    <div class="coin-details__body">
+      <div class="coin-details__content">
+        <coin-sidebar :coin="coin" />
+        <coin-overview :coin="coin" />
+      </div>
+
+      <div class="coin-details__chart">
+        <historical-chart
+          :coinName="coin.Name" 
+          :history="historicalData"
+          class="coin-overview__chart" 
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-  .coin-details {
+  .coin-details__content {
     display: flex;
     align-items: flex-start;
-    gap: 20px;
+    gap: 10px;
   }
-  @media (max-width: 768px) {
-    .coin-details {
-      flex-direction: column;
-    }
-  }
-  @media (max-width: 480px) {
-    .coin-details {
-      align-items: center ;
-    }
+  .coin-overview__chart {
+    margin-top: 40px;
+    width: 100%;
   }
 </style>
