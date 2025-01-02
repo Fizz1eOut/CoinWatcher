@@ -1,5 +1,6 @@
 // Интерфейс для описания данных о конкретной бирже
 export interface ExchangeData {
+  Id: string; // Уникальный идентификатор биржи
   Name: string; // Название биржи
   AffiliateURL?: string; // Ссылка на официальный сайт биржи
   Grade: string; // Буквенный рейтинг биржи (например, AA, BB)

@@ -20,9 +20,7 @@
   const route = useRoute();
 
   const fetchCoinDetails = async (name: string) => {
-    isLoading.value = true;
     error.value = null;
-
     try {
       const data = await getCoinSearch(name);
       if (data && data.RAW && data.RAW[name]) {
@@ -43,8 +41,6 @@
         console.warn('No coin symbol provided!');
         return;
       }
-
-      isLoading.value = true;
       const marketCaps = await getHistoricalMarketCaps([name]);
       const coinData = marketCaps.find((entry) => entry.symbol === name);
 

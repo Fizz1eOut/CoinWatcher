@@ -3,10 +3,10 @@
   import type { CoinDetail } from '@/interface/coinSearch.interface';
   import AppCoinData from '@/components/Base/AppCoinData.vue';
 
-  interface trendingCoins {
+  interface CoinDetailProps {
     coin: CoinDetail;
   }
-  const props = defineProps<trendingCoins>();
+  const props = defineProps<CoinDetailProps>();
 
   // Создаем вычисляемое свойство для форматирования Change (24h)
   const formattedChange = computed(() => {
