@@ -68,7 +68,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
+    border-radius: 10px;
     background: var(--color-gradient);
     cursor: pointer;
     transition: background 0.3s ease-in-out;

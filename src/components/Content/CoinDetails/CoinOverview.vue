@@ -21,8 +21,18 @@
   .coin-overview {
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 10px;
+  }
+  @media (max-width: 930px) {
+    .coin-overview {
+      flex-wrap: wrap;
+    }
+  }
+  @media (max-width: 499px) {
+    .coin-overview {
+      justify-content: center;
+    }
   }
 </style>

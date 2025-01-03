@@ -42,4 +42,10 @@
     margin-top: 40px;
     width: 100%;
   }
+  @media (max-width: 499px) {
+    .coin-details__content {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 </style>

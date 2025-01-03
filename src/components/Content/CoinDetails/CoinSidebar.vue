@@ -39,4 +39,10 @@
   .coin-sidebar__buttons {
     margin-top: 20px;
   }
+  @media (max-width: 768px) {
+    .coin-sidebar__img {
+      width: 150px;
+      height: 150px;
+    }
+  }
 </style>

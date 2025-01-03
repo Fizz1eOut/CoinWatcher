@@ -84,7 +84,15 @@
       flex-wrap: wrap;
     }
     .coin-summary__item {
-      font-size: 20px;
+      font-size: 19px;
+    }
+  }
+  @media (max-width: 499px) {
+    .coin-summary__content{
+      justify-content: center;
+    }
+    .coin-summary__items {
+      justify-content: center;
     }
   }
 </style>
