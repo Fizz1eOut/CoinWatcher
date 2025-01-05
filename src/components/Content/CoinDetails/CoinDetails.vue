@@ -36,7 +36,7 @@
   .coin-details__content {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 20px;
   }
   .coin-overview__chart {
     margin-top: 40px;

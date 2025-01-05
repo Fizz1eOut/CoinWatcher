@@ -64,7 +64,7 @@
   <div class="coin-exchanges">
     <div class="coin-exchanges__buy">
       <app-button 
-        gradient
+        outline
         @click="toggleBuy" 
         class="coin-exchanges__button"
       >
@@ -93,11 +93,11 @@
 
     <div class="coin-exchanges__trade">
       <app-button 
-        gradient 
+        outline 
         @click="toggleTrade" 
         class="coin-exchanges__button"
       >
-        trade
+        Trade
         <app-icon
           name="arrow"
           size="17px"
@@ -127,9 +127,6 @@
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    max-width: 240px;
-    width: 100%;
-    padding-top: 20px;
   }
   .coin-exchanges__buy,
   .coin-exchanges__trade {

@@ -37,14 +37,14 @@
     border-radius: 0;
     border: none;
     padding: 0;
+    font-family: "Montserrat", sans-serif;
   }
   .button:hover {
     background-color: transparent
   }
   .button-outline {
-    padding: 16px 0;
     width: 100%;
-    height: 100%;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,9 +62,8 @@
     background-color: var(--color-blue);
   }
   .button-gradient {
-    padding: 6px;
     width: 100%;
-    height: 100%;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;

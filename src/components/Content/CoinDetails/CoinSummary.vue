@@ -19,7 +19,7 @@
   <div class="coin-summary">
     <div class="coin-summary__content">
       <div class="coin-summary__price">
-        <span>Current price:</span>
+        <div class="coin-summary__text">Current price:</div>
         <app-coin-data 
           :coinName="coin.Name" 
           dataType="price" 
@@ -28,21 +28,21 @@
 
       <div class="coin-summary__items">
         <div class="coin-summary__item">
-          <span>24h Volume:</span>
+          <div class="coin-summary__text">24h Volume:</div>
           <app-coin-data 
             :coinName="coin.Name" 
             dataType="volume24h" 
           />
         </div>
         <div class="coin-summary__item">
-          <span>Market Cap:</span>
+          <div class="coin-summary__text">Market Cap:</div>
           <app-coin-data 
             :coinName="coin.Name" 
             dataType="marketCap" 
           />
         </div>
         <div class="coin-summary__item">
-          <span>Change (24h):</span>
+          <div class="coin-summary__text">Change (24h):</div>
           <div>{{ formattedChange }}</div>
         </div>
       </div>
@@ -54,37 +54,33 @@
   .coin-summary__price {
     font-size: 24px;
   }
-  .coin-summary__price span {
-    font-size: 16px;
+  .coin-summary__text {
+    font-size: 14px;
     color: var(--color-gray);
   }
   .coin-summary__content {
     display: flex;
     align-items: center;
-    column-gap: 40px;
-    row-gap: 20px;
+    column-gap: 10px;
+    row-gap: 10px;
     flex-wrap: wrap;
   }
   .coin-summary__items {
     display: flex;
     align-items: center;
-    column-gap: 40px;
-    row-gap: 20px;
+    column-gap: 10px;
+    row-gap: 10px;
   }
   .coin-summary__item {
     font-size: 24px;
   }
-  .coin-summary__item span {
-    font-size: 16px;
-    color: var(--color-gray);
-  }
   @media (max-width: 768px) {
     .coin-summary__items {
-      column-gap: 20px;
+      column-gap: 10px;
       flex-wrap: wrap;
     }
     .coin-summary__item {
-      font-size: 19px;
+      font-size: 18px;
     }
   }
   @media (max-width: 499px) {
