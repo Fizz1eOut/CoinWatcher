@@ -49,8 +49,7 @@
     align-items: center;
     justify-content: center;
     font-size: 16px;
-    font-weight: 600;
-    font-family: "Source Code Pro", monospace;
+    font-weight: 400;
     color: var(--color-white);
     border: 1px solid var(--color-blue);
     background-color: transparent;
@@ -84,5 +83,12 @@
   .button-disabled:hover {
     opacity: 0.4;
     background-color: var(--color-grey);
+  }
+  @media (max-width: 499px) {
+    .button-outline,
+    .button-gradient {
+      height: 36px;
+      font-size: 14px;
+    }
   }
 </style>

@@ -61,14 +61,14 @@
   .coin-summary__content {
     display: flex;
     align-items: center;
-    column-gap: 10px;
+    column-gap: 20px;
     row-gap: 10px;
     flex-wrap: wrap;
   }
   .coin-summary__items {
     display: flex;
     align-items: center;
-    column-gap: 10px;
+    column-gap: 20px;
     row-gap: 10px;
   }
   .coin-summary__item {
