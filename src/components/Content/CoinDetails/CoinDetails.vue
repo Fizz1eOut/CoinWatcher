@@ -3,7 +3,7 @@
   import type { HistoricalData } from '@/interface/marketCaps.interface';
   import CoinSidebar from '@/components/Content/CoinDetails/CoinSidebar.vue';
   import CoinOverview from '@/components/Content/CoinDetails/CoinOverview.vue';
-  import HistoricalChart from '@/components/Content/HistoricalChart.vue';
+  import CoinDetailsChart from '@/components/Content/CoinDetails/CoinDetailsChart.vue';
 
   interface CoinDetailProps {
     coin: CoinDetail | null;
@@ -22,11 +22,7 @@
       </div>
 
       <div class="coin-details__chart">
-        <historical-chart
-          :coinName="coin.Name" 
-          :history="historicalData"
-          class="coin-overview__chart" 
-        />
+        <coin-details-chart :coin="coin" :historicalData="historicalData" />
       </div>
     </div>
   </div>

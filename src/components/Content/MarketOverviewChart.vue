@@ -13,6 +13,10 @@
       type: String as () => '1d' | '7d' | '1m',
       required: true,
     },
+    showMarkers: {
+      type: Boolean,
+      default: false, // По умолчанию маркеры отключены
+    },
   });
 
   // Функция для форматирования чисел (миллиарды, миллионы, тысячи)
@@ -29,12 +33,13 @@
 
   // Генерация цветов
   const generateColors = (count: number) => {
-    const colors = [];
-    for (let i = 0; i < count; i++) {
+    const colors = ['#EDB60B']; // Первый цвет всегда желтый
+    for (let i = 1; i < count; i++) {
       colors.push(`#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`);
     }
     return colors;
   };
+
 
   // Фильтрация данных
   const filteredData = computed(() => {
@@ -69,7 +74,7 @@
         y: point.market_cap ?? point.close,
       })),
     }));
-
+    
     return {
       chart: {
         type: 'line',
@@ -79,6 +84,15 @@
       },
       series,
       colors,
+      markers: {
+        size: props.showMarkers ? 6 : 0,
+        colors,
+        strokeColors: '#fff',
+        strokeWidth: 2,
+        hover: {
+          size: props.showMarkers ? 8 : 0,
+        },
+      },
       xaxis: {
         type: 'datetime',
         labels: {
