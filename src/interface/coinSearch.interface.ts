@@ -1,6 +1,6 @@
 export interface SeacrchData {
   USD: {
-    PRICE: string; // Цена
+    PRICE: number; // Цена
     MKTCAP: string; // Рыночная капитализация
     TOTALVOLUME24H: string; // Объем за 24 часа
     CHANGEPCT24HOUR: string; // Изменение цены за 24 часа

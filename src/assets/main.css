@@ -83,6 +83,7 @@ body {
   --color-gradient-hover: linear-gradient(90deg, #41acca 0%, #b573ff 100%);
   --color-background: #141627;
   --color-underlay: #1a1d34;
+  --color-deep-blue: #25283E;
 }
 
 /* @media (max-width: 991px) {
