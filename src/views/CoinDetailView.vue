@@ -14,7 +14,7 @@
   defineProps<CoinDetailProps>();
 
   const coin = ref<CoinDetail | null>(null);
-  const isLoading = ref(false);
+  const isLoading = ref(true);
   const error = ref<string | null>(null);
   const historicalData = ref<HistoricalData[]>([]);
   const route = useRoute();
@@ -62,6 +62,7 @@
     (newName) => {
       if (newName) fetchCoinDetails(newName as string);
       if (newName) fetchCoinHistoricalData(newName as string);
+      isLoading.value = false;
     }
   );
 </script>
