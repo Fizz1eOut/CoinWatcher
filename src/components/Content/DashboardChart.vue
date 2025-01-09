@@ -92,7 +92,7 @@
     font-weight: 400;
     font-family: "Source Code Pro", monospace;
     background: rgba(10, 12, 29, 0.8);
-    border-radius: 10px;
+    border-radius: 25px;
     letter-spacing: -2px;
     padding: 6px 12px;
   }
