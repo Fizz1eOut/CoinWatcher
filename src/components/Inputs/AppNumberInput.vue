@@ -54,7 +54,7 @@
     >-</button>
     <input 
       class="number-input__input" 
- 
+      type="number"
       :value="currentValue" 
       @input="handleInput" 
       :min="props.min" 
@@ -101,6 +101,15 @@
     font-weight: bold;
     color: var(--color-white);
     background-color: var(--color-dark);
+
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .number-input__input::-webkit-outer-spin-button,
+  .number-input__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
   .number-input__button--increment {
     border-left: 1px solid #3a3d52;
