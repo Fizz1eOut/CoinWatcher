@@ -42,7 +42,8 @@
 
   // Вычисляем количество на основе введённой цены (для режима "ввод цены")
   const calculatedAmount = computed(() => {
-    return coinPrice.value ? totalPrice.value / coinPrice.value : 0;
+    if (!coinPrice.value) return 0; // Если цена не задана, вернуть 0
+    return totalPrice.value / coinPrice.value; // Корректный пересчёт
   });
 
   const toggleInputMode = () => {
@@ -66,6 +67,12 @@
       previousPrice.value = coinPrice.value;
       coinPrice.value = update.price;
       isLoading.value = false;
+
+      // Пересчёт значений в зависимости от текущего режима
+      if (!isAmountMode.value) {
+        // Если активен режим "ввод цены", пересчитываем количество
+        cryptoAmount.value = calculatedAmount.value;
+      }
     }
   };
   // Подписка на WebSocket
@@ -126,7 +133,14 @@
                 Total Cost: ${{ formatPrice(totalCost) }}
               </span>
             </div>
-            <span v-else>
+            <span 
+              v-else
+              :class="{
+                'price-up': changeDirection === 'up',
+                'price-down': changeDirection === 'down',
+                'price-neutral': changeDirection === null
+              }"
+            >
               Amount: {{ calculatedAmount.toFixed(8) }}
             </span>
           </div>
@@ -137,6 +151,11 @@
 </template>
 
 <style scoped>
+  .price-up,
+  .price-down,
+  .price-neutral {
+    transition: color 0.3s ease-in-out;
+  }
   .price-up {
     color: var(--color-green);
     font-weight: 500;
