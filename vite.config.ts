@@ -22,7 +22,7 @@ export default defineConfig({
     globals: true, // Использовать глобальные функции тестов (describe, it, expect)
     environment: 'jsdom', // Эмулируем браузерную среду
     // setupFiles: './src/setupTests.ts', // Опционально: Файл для глобальной настройки тестов
-    include: ['src/**/*.test.{ts,js}'], // Шаблон поиска тестовых файлов
+    include: ['src/tests/**/*.test.{ts,js}'],
     exclude: [...configDefaults.exclude, 'e2e/**'], // Исключаем e2e-тесты, если они есть
     coverage: { // Опционально: Отчёты по покрытию кода
       provider: 'istanbul',

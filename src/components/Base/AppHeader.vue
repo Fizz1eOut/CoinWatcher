@@ -15,6 +15,10 @@
   const closeBurger = (): void => {
     open.value = false;
   };
+  defineExpose({
+    open,
+    closeBurger,
+  });
 </script>
 
 
