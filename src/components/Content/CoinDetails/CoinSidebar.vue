@@ -42,7 +42,7 @@
       </app-button>
     </div>
     <app-underlay>
-      <app-container size="md">
+      <app-container size="md" class="coin-sidebar__container">
         <div class="coin-sidebar__content">
           <transition name="slide-fade">
             <app-price-calculator 
@@ -119,6 +119,9 @@
     .coin-sidebar__img {
       width: 200px;
       height: 200px;
+    }
+    .coin-sidebar__container {
+      padding: 30px;
     }
   }
 </style>
