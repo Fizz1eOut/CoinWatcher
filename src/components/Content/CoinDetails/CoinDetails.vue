@@ -4,6 +4,7 @@
   import CoinSidebar from '@/components/Content/CoinDetails/CoinSidebar.vue';
   import CoinOverview from '@/components/Content/CoinDetails/CoinOverview.vue';
   import CoinDetailsChart from '@/components/Content/CoinDetails/CoinDetailsChart.vue';
+  import CoinNews from '@/components/Content/CoinDetails/CoinNews.vue';
 
   interface CoinDetailProps {
     coin: CoinDetail | null;
@@ -23,6 +24,9 @@
 
       <div class="coin-details__chart">
         <coin-details-chart :coin="coin" :historicalData="historicalData" />
+      </div>
+      <div class="coin-details__news">
+        <coin-news :coin="coin" />
       </div>
     </div>
   </div>
