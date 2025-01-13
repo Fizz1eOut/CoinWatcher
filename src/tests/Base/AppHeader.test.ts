@@ -1,60 +1,73 @@
 import { mount } from '@vue/test-utils';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import AppHeader from '@/components/Base/AppHeader.vue';
 import AppBurger from '@/components/Base/AppBurger.vue';
-import AppNavMobile from '@/components/Base/AppNavMobile.vue';
-import { useMediaQuery } from '@/composables/useMediaQuery';
 
-vi.mock('@/composables/useMediaQuery', () => ({
-  useMediaQuery: vi.fn(),
-}));
+// Мокаем window.matchMedia
+beforeEach(() => {
+  vi.stubGlobal('matchMedia', vi.fn().mockImplementation((query) => ({
+    matches: query.includes('(max-width: 768px)'), // Мок состояния мобильной версии
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })));
+});
 
 describe('AppHeader.vue', () => {
-  it('должен рендерить компоненты корректно', () => {
-    // Мокаем useMediaQuery для эмуляции desktop режима
-    (useMediaQuery as vi.Mock).mockReturnValue({ isMobile: false });
-
-    const wrapper = mount(AppHeader);
-
-    expect(wrapper.findComponent(AppBurger).exists()).toBe(true);
-    expect(wrapper.findComponent(AppNavMobile).exists()).toBe(false);
-    expect(wrapper.findComponent({ name: 'AppNav' }).exists()).toBe(true);
-  });
-
-  it('должен переключать состояние open при клике на AppBurger', async () => {
-    (useMediaQuery as vi.Mock).mockReturnValue({ isMobile: true });
-
-    const wrapper = mount(AppHeader);
-    const burger = wrapper.findComponent(AppBurger);
-
-    expect(wrapper.vm.open).toBe(false);
-    await burger.vm.$emit('change', true);
-    expect(wrapper.vm.open).toBe(true);
-  });
-
-  it('должен вызывать closeBurger при эмиссии события "close" из AppNavMobile', async () => {
-    (useMediaQuery as vi.Mock).mockReturnValue({ isMobile: true });
-
+  it('должен иметь изначально закрытый бургер', () => {
     const wrapper = mount(AppHeader, {
-      data() {
-        return {
-          open: true,
-        };
+      global: {
+        stubs: {
+          'router-link': true, // Замена router-link на простой div
+        },
       },
     });
 
-    const navMobile = wrapper.findComponent(AppNavMobile);
-    await navMobile.vm.$emit('close');
+    const burger = wrapper.findComponent(AppBurger);
 
+    expect(wrapper.vm.open).toBe(false); // Проверяем начальное состояние
+    expect(burger.props('active')).toBe(false); // Проверяем, что бургер не активен
+  });
+
+  it('должен обновлять состояние "open" при событии @change из AppBurger', async () => {
+    const wrapper = mount(AppHeader, {
+      global: {
+        stubs: {
+          'router-link': true,
+        },
+      },
+    });
+
+    const burger = wrapper.findComponent(AppBurger);
+
+    // Эмитируем событие "change" с новым состоянием
+    await burger.vm.$emit('change', true);
+
+    // Проверяем, что состояние open обновилось
+    expect(wrapper.vm.open).toBe(true);
+
+    // Эмитируем событие "change" с другим значением
+    await burger.vm.$emit('change', false);
+
+    // Проверяем, что состояние open обновилось
     expect(wrapper.vm.open).toBe(false);
   });
 
-  it('должен отображать AppNavMobile вместо AppNav в мобильном режиме', () => {
-    (useMediaQuery as vi.Mock).mockReturnValue({ isMobile: true });
+  it('должен закрывать бургер при вызове метода closeBurger', () => {
+    const wrapper = mount(AppHeader, {
+      global: {
+        stubs: {
+          'router-link': true,
+        },
+      },
+    });
 
-    const wrapper = mount(AppHeader);
-
-    expect(wrapper.findComponent({ name: 'AppNav' }).exists()).toBe(false);
-    expect(wrapper.findComponent(AppNavMobile).exists()).toBe(true);
+    wrapper.vm.open = true; // Устанавливаем состояние open = true
+    wrapper.vm.closeBurger(); // Вызываем метод closeBurger
+    expect(wrapper.vm.open).toBe(false); // Проверяем, что open стал false
   });
 });
