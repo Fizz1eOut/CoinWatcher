@@ -21,9 +21,7 @@
     error.value = null;
     try {
       const data = await getCryptoData(props.coin.Name);
-      console.log(data);
       cryptoData.value = data.Data;
-      console.log(cryptoData.value);
     } catch (err) {
       error.value = 'Error loading data';
       console.error(err);

@@ -17,7 +17,6 @@
   const fetchNews = async (cryptoName?: string) => {
     try {
       const data = await getNews(cryptoName);
-      console.log(data);
       news.value = data.Data.slice(0, 6);
     } catch (error) {
       console.error('Error fetching news data:', error);
