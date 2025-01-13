@@ -2,6 +2,7 @@
   import { RouterView } from 'vue-router';
   import AppHeader from '@/components/Base/AppHeader.vue';
   import AppContainer from '@/components/Base/AppContainer.vue';
+  import AppFooter from '@/components/Base/AppFooter.vue';
 </script>
 
 <template>
@@ -17,7 +18,7 @@
     </main>
 
     <footer>
-      
+      <app-footer />
     </footer>
   </div>
 </template>
