@@ -28,10 +28,8 @@
   const addToPortfolio = () => {
     if (props.coin) {
       portfolioStore.addCoin(props.coin);
-      alert(`${props.coin.Name} has been added to your portfolio!`);
     }
   };
-  
 </script>
 
 <template>
