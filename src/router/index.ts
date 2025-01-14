@@ -7,6 +7,7 @@ import ConverterView from '@/views/ConverterView.vue';
 import ComparisonView from '@/views/ComparisonView.vue';
 import NewsView from '@/views/NewsView.vue';
 import CoinDetailView from '@/views/CoinDetailView.vue';
+import BriefcaseView from '@/views/BriefcaseView.vue';
 
 const scrollBehavior: RouterScrollBehavior = (to, from, savedPosition) => {
   if (savedPosition) {
@@ -27,6 +28,7 @@ const router = createRouter({
     { path: '/comparison', name: 'comparison', component: ComparisonView },
     { path: '/news', name: 'news', component: NewsView },
     { path: '/coin/:name', component: CoinDetailView, name: 'CoinDetailView', props: true },
+    { path: '/briefcase', name: 'briefcase', component: BriefcaseView },
   ],
   scrollBehavior,
 });

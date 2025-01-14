@@ -1,6 +1,11 @@
 <script setup lang="ts">
+  import { computed } from 'vue';
   import AppButton from '@/components/Base/AppButton.vue';
   import AppIcon from '@/components/Base/AppIcon.vue';
+  import { useBriefcaseStore } from '@/stores/briefcaseStore';
+
+  const briefcaseStore = useBriefcaseStore();
+  const briefcaseCount = computed(() => briefcaseStore.briefcase.length);
 </script>
 
 <template>
@@ -12,7 +17,7 @@
         style="color: var(--color-white)"
         class="icon-briefcase" 
       />
-      <span class="briefcase__quantity">0</span>
+      <span class="briefcase__quantity">{{ briefcaseCount }}</span>
     </app-button>
   </div>
 </template>

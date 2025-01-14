@@ -92,14 +92,14 @@
     background: var(--color-gradient-hover);
   }
   .button-disabled {
-    background-color: var(--color-grey);
+    background: var(--color-gray);
     opacity: 0.3;
     transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out;
     cursor: not-allowed;
   }
   .button-disabled:hover {
     opacity: 0.4;
-    background-color: var(--color-grey);
+    background: var(--color-gray);
   }
   @media (max-width: 499px) {
     .button-outline,

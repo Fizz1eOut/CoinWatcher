@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
+  import { useBriefcaseStore } from '@/stores/briefcaseStore';
   import type { CoinDetail } from '@/interface/coinSearch.interface';
   import AppImageCoin from '@/components/Base/AppImageCoin.vue';
   import AppSubtitle from '@/components/Base/AppSubtitle.vue';
@@ -12,12 +13,25 @@
   interface trendingCoins {
     coin: CoinDetail | null;
   }
-  defineProps<trendingCoins>();
+  const props = defineProps<trendingCoins>();
+
   const isCalculatorVisible = ref(false);
+  const portfolioStore = useBriefcaseStore();
+
+  const isInPortfolio = computed(() => {
+    return props.coin ? portfolioStore.briefcase.some((item) => item.Name === props.coin?.Name) : false;
+  });
 
   const toggleCalculator = () => {
     isCalculatorVisible.value = !isCalculatorVisible.value;
   };
+  const addToPortfolio = () => {
+    if (props.coin) {
+      portfolioStore.addCoin(props.coin);
+      alert(`${props.coin.Name} has been added to your portfolio!`);
+    }
+  };
+  
 </script>
 
 <template>
@@ -53,7 +67,14 @@
           </transition>
           <app-image-coin :imageUrl="coin.ImageUrl" class="coin-sidebar__img" />
           <app-subtitle>{{ coin.Name }}</app-subtitle>
-          <app-button gradient class="coin-sidebar__button-portfolio">Add to Portfolio</app-button>
+          <app-button 
+            gradient 
+            :disabled="isInPortfolio"
+            class="coin-sidebar__button-portfolio" 
+            @click="addToPortfolio"
+          >
+            {{ isInPortfolio ? 'Added' : 'Add to Portfolio' }}
+          </app-button>
         </div>
       </app-container>
     </app-underlay>
