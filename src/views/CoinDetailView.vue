@@ -25,6 +25,7 @@
       const data = await getCoinSearch(name);
       if (data && data.RAW && data.RAW[name]) {
         coin.value = {
+          id: route.params.name as string,
           Name: name,
           ImageUrl: data.RAW[name].USD.IMAGEURL,
           DISPLAY: data.RAW[name].USD,
