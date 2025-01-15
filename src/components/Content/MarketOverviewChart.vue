@@ -74,11 +74,11 @@
         y: point.market_cap ?? point.close,
       })),
     }));
-    
+
     return {
       chart: {
         type: 'line',
-        height: 400,
+        height: 300,
         toolbar: { show: false },
         zoom: { enabled: false },
       },
@@ -96,10 +96,10 @@
       xaxis: {
         type: 'datetime',
         labels: {
-          format: 'dd MMM',
+          // Условие для изменения формата
+          format: props.selectedTimeRange === '1d' ? 'HH:mm' : 'dd MMM', // Показывать только часы и минуты для 1 дня
           style: {
-            colors: 'var(--color-gray)', // Цвет текста на оси x
-
+            colors: 'var(--color-gray)',
           },
         },
       },
@@ -149,9 +149,9 @@
             const seriesColor =
               w.config.colors[series.findIndex((s) => s[dataPointIndex] === point.value)] || '#fff';
             tooltipHtml += `<div>
-              <span style="color: ${seriesColor};">●</span>
-              ${point.name}: ${point.value.toFixed(2)}$
-            </div>`;
+            <span style="color: ${seriesColor};">●</span>
+            ${point.name}: ${point.value.toFixed(2)}$
+          </div>`;
           });
           tooltipHtml += '</div>';
           return tooltipHtml;
@@ -163,6 +163,7 @@
       },
     };
   };
+
 
   // Ссылка на график
   const chartInstance = ref<ApexCharts | null>(null);

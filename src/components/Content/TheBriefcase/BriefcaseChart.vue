@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, onMounted, computed } from 'vue';
+  import { ref, onMounted, computed, watch } from 'vue';
   import { getTopCoins } from '@/api/coins/topCoins';
   import { getHistoricalMarketCaps } from '@/api/coins/marketCaps';
   import type { TopCoin } from '@/interface/topCoins.interface';
@@ -36,7 +36,7 @@
       const symbols = briefcase.value.map((coin) => coin.Name);
 
       // Получение исторических данных по этим символам
-      historicalData.value = await getHistoricalMarketCaps(symbols);
+      historicalData.value = await getHistoricalMarketCaps(symbols, selectedTimeRange.value);
     } catch (err) {
       error.value = 'Failed to load market data';
       console.error(err);
@@ -51,6 +51,22 @@
   };
 
   onMounted(fetchMarketOverview);
+
+  watch(
+    selectedTimeRange,
+    async (newRange) => {
+      isLoading.value = true;
+      try {
+        const symbols = briefcase.value.map((coin) => coin.Name);
+        historicalData.value = await getHistoricalMarketCaps(symbols, newRange); // Обновляем данные
+      } catch (err) {
+        error.value = 'Failed to load market data';
+        console.error(err);
+      } finally {
+        isLoading.value = false;
+      }
+    }
+  );
 </script>
 
 <template>
