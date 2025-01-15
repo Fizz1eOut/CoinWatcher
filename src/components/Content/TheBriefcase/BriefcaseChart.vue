@@ -8,6 +8,7 @@
   import AppButton from '@/components/Base/AppButton.vue';
   import AppTitle from '@/components/Base/AppTitle.vue';
   import { useBriefcaseStore } from '@/stores/briefcaseStore';
+  import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
 
   // Определяем строгий тип для временных диапазонов
   type TimeRange = '1d' | '7d' | '1m';
@@ -71,7 +72,13 @@
 
 <template>
   <div>
-    <div v-if="isLoading">Loading...</div>
+    <app-loading-spinner 
+      v-if="isLoading" 
+      class="loader" 
+      size="70px"
+      borderWidth="7px"
+      height="100vh" 
+    />
     <div class="briefcase-chart" v-else>
       <app-title>
         Dynamics of portfolio market capitalization

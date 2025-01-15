@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, watch } from 'vue';
   import { getTopCoins } from '@/api/coins/topCoins';
   import { getHistoricalMarketCaps } from '@/api/coins/marketCaps';
   import type { TopCoin } from '@/interface/topCoins.interface';
@@ -30,7 +30,7 @@
       const symbols = marketData.value.map((coin) => coin.CoinInfo.Name);
 
       // Получение исторических данных по этим символам
-      historicalData.value = await getHistoricalMarketCaps(symbols);
+      historicalData.value = await getHistoricalMarketCaps(symbols, selectedTimeRange.value);
     } catch (err) {
       error.value = 'Failed to load market data';
       console.error(err);
@@ -45,11 +45,33 @@
   };
 
   onMounted(fetchMarketOverview);
+
+  watch(
+    selectedTimeRange,
+    async (newRange) => {
+      isLoading.value = true;
+      try {
+        const symbols = marketData.value.map((coin) => coin.CoinInfo.Name);
+        historicalData.value = await getHistoricalMarketCaps(symbols, newRange); // Обновляем данные
+      } catch (err) {
+        error.value = 'Failed to load market data';
+        console.error(err);
+      } finally {
+        isLoading.value = false;
+      }
+    }
+  );
 </script>
 
 <template>
   <div>
-    <div v-if="isLoading">Loading...</div>
+    <app-loading-spinner 
+      v-if="isLoading" 
+      class="loader" 
+      size="70px"
+      borderWidth="7px"
+      height="100vh" 
+    />
     <div v-else-if="error">{{ error }}</div>
     <div class="dashboard-chart" v-else>
       <app-title>
