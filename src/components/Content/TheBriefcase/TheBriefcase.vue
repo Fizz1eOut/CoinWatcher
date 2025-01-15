@@ -4,10 +4,28 @@
   import AppTitle from '@/components/Base/AppTitle.vue';
   import AppSubtitle from '@/components/Base/AppSubtitle.vue';
   import BriefcaseChart from '@/components/Content/TheBriefcase/BriefcaseChart.vue';
+  import CryptoTable from '@/components/Content/CryptoTable.vue';
 
   const briefcaseStore = useBriefcaseStore();
   const briefcase = computed(() => briefcaseStore.briefcase);
 
+  const formattedBriefcase = computed(() =>
+    briefcase.value.map((coin) => ({
+      CoinInfo: {
+        Name: coin.Name,
+        ImageUrl: coin.ImageUrl,
+        Id: coin.id,
+      },
+      DISPLAY: {
+        USD: {
+          PRICE: String(coin.DISPLAY.PRICE),
+          MKTCAP: coin.DISPLAY.MKTCAP,
+          TOTALVOLUME24H: coin.DISPLAY.TOTALVOLUME24H,
+          CHANGEPCT24HOUR: parseFloat(coin.DISPLAY.CHANGEPCT24HOUR).toFixed(2),
+        },
+      },
+    }))
+  );
   // const removeFromBriefcase = (id: string) => {
   //   briefcaseStore.removeCoin(id);
   // };
@@ -16,27 +34,16 @@
 
 <template>
   <div class="briefcase">
-    <app-title>Your Portfolio</app-title>
-    <briefcase-chart v-if="briefcase.length > 0" :briefcase="briefcase" />
+    <app-title v-if="briefcase.length > 0" >Your Portfolio</app-title>
     <app-subtitle v-else>No coins in your portfolio yet.</app-subtitle>
+    <briefcase-chart :briefcase="briefcase" />
+    <crypto-table :topCoins="formattedBriefcase">
+      <template #header>
+        Cryptocurrencies in Your Portfolio
+      </template>
+    </crypto-table>
   </div>
 </template>
 
 <style scoped>
-.briefcase {
-  padding: 20px;
-}
-.briefcase__item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.briefcase__image {
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-}
-.briefcase__name {
-  margin-right: 20px;
-}
 </style>
