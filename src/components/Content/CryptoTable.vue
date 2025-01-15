@@ -148,7 +148,9 @@
 <template>
   <div v-if="props.topCoins.length > 0" class="crypto-table">
     <div class="crypto-table__header">
-      <app-title>Top 10 Cryptocurrencies</app-title>
+      <app-title>
+        <slot name="header">Top 10 Cryptocurrencies</slot>
+      </app-title>
       <router-link to="/coins">
         <app-link>View all</app-link>
       </router-link>
