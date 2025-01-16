@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import type { CoinDetail } from '@/interface/coinSearch.interface';
-  import type { HistoricalData } from '@/interface/marketCaps.interface';
   import CoinSidebar from '@/components/Content/CoinDetails/CoinSidebar.vue';
   import CoinOverview from '@/components/Content/CoinDetails/CoinOverview.vue';
   import CoinDetailsChart from '@/components/Content/CoinDetails/CoinDetailsChart.vue';
@@ -8,7 +7,6 @@
 
   interface CoinDetailProps {
     coin: CoinDetail | null;
-    historicalData: HistoricalData[];
   }
 
   defineProps<CoinDetailProps>();
@@ -23,7 +21,7 @@
       </div>
 
       <div class="coin-details__chart">
-        <coin-details-chart :coin="coin" :historicalData="historicalData" />
+        <coin-details-chart :coin="coin" />
       </div>
       <div class="coin-details__news">
         <coin-news :coin="coin" />

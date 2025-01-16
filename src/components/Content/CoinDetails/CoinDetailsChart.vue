@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, watch } from 'vue';
   import type { CoinDetail } from '@/interface/coinSearch.interface';
   import { getHistoricalMarketCaps } from '@/api/coins/marketCaps';
   import type { MarketCapEntry } from '@/interface/marketCaps.interface';
@@ -29,7 +29,7 @@
     try {
       if (props.coin?.Name) {
         // Оборачиваем в массив, так как getHistoricalMarketCaps ожидает string[]
-        historicalData.value = await getHistoricalMarketCaps([props.coin.Name]);
+        historicalData.value = await getHistoricalMarketCaps([props.coin.Name], selectedTimeRange.value);
       } else {
         throw new Error('Coin name is not available');
       }
@@ -47,6 +47,23 @@
   };
 
   onMounted(fetchMarketOverview);
+
+  watch(
+    selectedTimeRange,
+    async (newRange) => {
+      isLoading.value = true;
+      try {
+        if (props.coin?.Name) {
+          historicalData.value = await getHistoricalMarketCaps([props.coin.Name], newRange);
+        }
+      } catch (err) {
+        error.value = 'Failed to load market data';
+        console.error(err);
+      } finally {
+        isLoading.value = false;
+      }
+    }
+  );
 </script>
 
 <template>
