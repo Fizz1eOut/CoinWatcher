@@ -5,6 +5,7 @@
   import AppSubtitle from '@/components/Base/AppSubtitle.vue';
   import BriefcaseChart from '@/components/Content/TheBriefcase/BriefcaseChart.vue';
   import CryptoTable from '@/components/Content/CryptoTable.vue';
+  import BriefcaseManager from '@/components/Content/TheBriefcase/BriefcaseManager.vue';
 
   const briefcaseStore = useBriefcaseStore();
   const briefcase = computed(() => briefcaseStore.briefcase);
@@ -36,12 +37,15 @@
   <div class="briefcase">
     <app-title v-if="briefcase.length > 0" >Your Portfolio</app-title>
     <app-subtitle v-else>No coins in your portfolio yet.</app-subtitle>
-    <briefcase-chart :briefcase="briefcase" />
-    <crypto-table :topCoins="formattedBriefcase">
-      <template #header>
-        Cryptocurrencies in Your Portfolio
-      </template>
-    </crypto-table>
+    <div v-if="briefcase.length > 0" class="briefcase__body">
+      <briefcase-manager />
+      <briefcase-chart :briefcase="briefcase" />
+      <crypto-table :topCoins="formattedBriefcase">
+        <template #header>
+          Cryptocurrencies in Your Portfolio
+        </template>
+      </crypto-table>
+    </div>
   </div>
 </template>
 
