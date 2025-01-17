@@ -7,12 +7,12 @@
   import type { TopCoin } from '@/interface/topCoins.interface';
   import type { NewsItem } from '@/interface/news.interface';
   import type { ExchangeData } from '@/interface/exchanges.interface';
-  import CryptoTable from '@/components/Content/CryptoTable.vue';
-  import DashboardChart from '@/components/Content/DashboardChart.vue';
+  import CryptoTable from '@/components/Content/CryptoMarketOverview/CryptoTable.vue';
+  import CryptoChart from '@/components/Content/CryptoMarketOverview/CryptoChart.vue';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
   import TrendingCoinsList from '@/components/Content/TrendingCoinsList.vue';
-  import CryptoNews from '@/components/Content/CryptoNews.vue';
-  import CryptoExchanges from '@/components/Content/CryptoExchanges.vue';
+  import CryptoNews from '@/components/Content/CryptoMarketOverview/CryptoNews.vue';
+  import CryptoExchanges from '@/components/Content/CryptoMarketOverview/CryptoExchanges.vue';
 
   interface Trending {
     topGainers: TopCoin[];
@@ -90,7 +90,7 @@
   <div v-else>
     <trending-coins-list v-bind="trendingCoins" />
     <crypto-table :topCoins="topCoins" />
-    <dashboard-chart :topCoins="topCoins" />
+    <crypto-chart :topCoins="topCoins" />
     <crypto-exchanges :exchanges="exchanges" />
     <crypto-news :news="news" />
   </div>

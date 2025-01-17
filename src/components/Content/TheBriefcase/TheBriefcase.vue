@@ -4,7 +4,7 @@
   import AppTitle from '@/components/Base/AppTitle.vue';
   import AppSubtitle from '@/components/Base/AppSubtitle.vue';
   import BriefcaseChart from '@/components/Content/TheBriefcase/BriefcaseChart.vue';
-  import CryptoTable from '@/components/Content/CryptoTable.vue';
+  import CryptoTable from '@/components/Content/CryptoMarketOverview/CryptoTable.vue';
   import BriefcaseManager from '@/components/Content/TheBriefcase/BriefcaseManager.vue';
 
   const briefcaseStore = useBriefcaseStore();

@@ -3,7 +3,7 @@
   import { getNews } from '@/api/coins/news';
   import type { NewsItem } from '@/interface/news.interface';
   import type { CoinDetail } from '@/interface/coinSearch.interface';
-  import CryptoNews from '@/components/Content/CryptoNews.vue';
+  import CryptoNews from '@/components/Content/CryptoMarketOverview/CryptoNews.vue';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
 
   interface trendingCoins {

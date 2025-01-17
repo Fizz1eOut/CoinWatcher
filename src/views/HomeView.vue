@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  import GlobalMarketInfo from '@/components/Content/GlobalMarketInfo.vue';
+  import GlobalMarketInfo from '@/components/Content/CryptoMarketOverview/CryptoMarketOverview.vue';
 </script>
 
 <template>
- <global-market-info />
+  <global-market-info />
 </template>
 
 <style scoped>

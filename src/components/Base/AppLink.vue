@@ -10,7 +10,7 @@
 
 <style scoped>
 .link {
-  font-family: "Source Code Pro", monospace;
+  font-family: "Montserrat", sans-serif;
   font-size: 16px;
   font-weight: 500;
   line-height: 100%;

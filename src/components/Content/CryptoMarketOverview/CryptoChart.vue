@@ -7,6 +7,7 @@
   import MarketOverviewChart from '@/components/Content/MarketOverviewChart.vue';
   import AppButton from '@/components/Base/AppButton.vue';
   import AppTitle from '@/components/Base/AppTitle.vue';
+  import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
 
   // Определяем строгий тип для временных диапазонов
   type TimeRange = '1d' | '7d' | '1m';
@@ -73,16 +74,16 @@
       height="100vh" 
     />
     <div v-else-if="error">{{ error }}</div>
-    <div class="dashboard-chart" v-else>
+    <div class="crypto-chart" v-else>
       <app-title>
         Market Capitalization Dynamics
       </app-title>
-      <div class="dashboard-char__buttons">
+      <div class="crypto-char__buttons">
         <app-button
           v-for="range in timeRanges"
           :key="range"
           :class="{ active: selectedTimeRange === range }"
-          class="dashboard-char__button"
+          class="crypto-char__button"
           @click="updateTimeRange(range)"
         >
           {{ range === '1d' ? '1 Day' : range === '7d' ? '7 Days' : '1 Month' }}
@@ -98,24 +99,23 @@
 </template>
 
 <style scoped>
-  .dashboard-chart {
+  .crypto-chart {
     margin-top: 40px;
   }
-  .dashboard-char__buttons {
+  .crypto-char__buttons {
     margin: 30px auto 30px;
     display: flex;
     align-items: center;
     gap: 10px;
-    max-width: 260px;
+    max-width: 300px;
     width: 100%;
   }
-  .dashboard-char__button {
+  .crypto-char__button {
     font-size: 16px;
     font-weight: 400;
-    font-family: "Source Code Pro", monospace;
+    font-family: "Montserrat", sans-serif;
     background: rgba(10, 12, 29, 0.8);
     border-radius: 25px;
-    letter-spacing: -2px;
     padding: 6px 12px;
   }
   .active {
