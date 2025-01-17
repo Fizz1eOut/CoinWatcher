@@ -3,6 +3,7 @@
 
   interface AppModalProps {
     modelValue: boolean;
+    contentStyle?: Record<string, string>;
   }
   defineProps<AppModalProps>();
   const emits = defineEmits(['update:modelValue']);
@@ -17,7 +18,7 @@
     <Transition>
       <div v-if="modelValue" class="modal">
         <div class="overlay" @click.self="close">
-          <div class="content">
+          <div :style="contentStyle" class="content">
             <app-container size="md" class="modal-container">
 
               <div class="content__body">
