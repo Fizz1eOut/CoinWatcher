@@ -20,25 +20,23 @@
       DISPLAY: {
         USD: {
           PRICE: String(coin.DISPLAY.PRICE),
-          MKTCAP: coin.DISPLAY.MKTCAP,
-          TOTALVOLUME24H: coin.DISPLAY.TOTALVOLUME24H,
+          MKTCAP: String(coin.DISPLAY.MKTCAP),
+          TOTALVOLUME24H: String(coin.DISPLAY.TOTALVOLUME24H),
           CHANGEPCT24HOUR: parseFloat(coin.DISPLAY.CHANGEPCT24HOUR).toFixed(2),
         },
       },
     }))
   );
-  // const removeFromBriefcase = (id: string) => {
-  //   briefcaseStore.removeCoin(id);
-  // };
-  // <button @click="removeFromBriefcase(coin.id)">Remove</button>
 </script>
 
 <template>
   <div class="briefcase">
-    <app-title v-if="briefcase.length > 0" >Your Portfolio</app-title>
+    <div v-if="briefcase.length > 0" class="briefcase__header">
+      <app-title >Your Portfolio</app-title>
+      <briefcase-manager />
+    </div>
     <app-subtitle v-else>No coins in your portfolio yet.</app-subtitle>
     <div v-if="briefcase.length > 0" class="briefcase__body">
-      <briefcase-manager />
       <briefcase-chart :briefcase="briefcase" />
       <crypto-table :topCoins="formattedBriefcase">
         <template #header>
@@ -50,4 +48,15 @@
 </template>
 
 <style scoped>
+  .briefcase__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  @media (max-width: 410px) {
+    .briefcase__header {
+      flex-wrap: wrap;
+    }
+  }
 </style>

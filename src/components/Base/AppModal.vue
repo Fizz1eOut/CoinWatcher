@@ -55,10 +55,7 @@
   }
   @media (max-width: 499px) {
     .modal-container {
-      padding: 10px;
-    }
-    .content__body {
-      padding-top: 10px;
+      padding: 20px;
     }
   }
   .v-enter-active,
