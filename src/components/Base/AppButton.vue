@@ -6,6 +6,7 @@
     gradient?: boolean;
     outline?: boolean;
     disabled?: boolean;
+    remove?: boolean;
   }>();
 
   // Вычисляемый объект классов
@@ -13,6 +14,7 @@
     'button-gradient': props.gradient,
     'button-outline': props.outline,
     'button-disabled': props.disabled,
+    'button-remove': props.remove,
   }));
 </script>
 
@@ -91,6 +93,22 @@
   .button-gradient:hover {
     background: var(--color-gradient-hover);
   }
+  .button-remove {
+    padding: 8px 16px;
+    background: linear-gradient(to right, #ff4d4f, #ff7875);
+    color: var(--color-white);
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  .button-remove:hover {
+    transform: scale(1.05);
+  }
+
   .button-disabled {
     background: var(--color-gray);
     opacity: 0.3;
