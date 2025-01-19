@@ -2,7 +2,7 @@
   import { onMounted, ref } from 'vue';
   import { getNews } from '@/api/coins/news';
   import type { NewsItem } from '@/interface/news.interface';
-  import type { CoinDetail } from '@/interface/coinSearch.interface';
+  import type { CoinDetail } from '@/interface/coinDetail.interface';
   import CryptoNews from '@/components/Content/CryptoMarketOverview/CryptoNews.vue';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
 

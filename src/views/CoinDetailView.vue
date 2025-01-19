@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { ref, onMounted, watch } from 'vue';
   import { useRoute } from 'vue-router';
-  import { getCoinSearch } from '@/api/coins/coinSearch';
-  import type { CoinDetail } from '@/interface/coinSearch.interface';
+  import { getCoinDetail } from '@/api/coins/coinDetail';
+  import type { CoinDetail } from '@/interface/coinDetail.interface';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
   import CoinDetails from '@/components/Content/CoinDetails/CoinDetails.vue';
 
@@ -19,7 +19,7 @@
   const fetchCoinDetails = async (name: string) => {
     error.value = null;
     try {
-      const data = await getCoinSearch(name);
+      const data = await getCoinDetail(name);
       if (data && data.RAW && data.RAW[name]) {
         coin.value = {
           id: route.params.name as string,

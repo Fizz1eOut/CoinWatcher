@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed } from 'vue';
-  import type { CoinDetail } from '@/interface/coinSearch.interface';
+  import type { CoinDetail } from '@/interface/coinDetail.interface';
   import AppCoinData from '@/components/Base/AppCoinData.vue';
 
   interface CoinDetailProps {

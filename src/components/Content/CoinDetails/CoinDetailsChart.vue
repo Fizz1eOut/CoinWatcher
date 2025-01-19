@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref, onMounted, watch } from 'vue';
-  import type { CoinDetail } from '@/interface/coinSearch.interface';
+  import type { CoinDetail } from '@/interface/coinDetail.interface';
   import { getHistoricalMarketCaps } from '@/api/coins/marketCaps';
   import type { MarketCapEntry } from '@/interface/marketCaps.interface';
   import MarketOverviewChart from '@/components/Content/MarketOverviewChart.vue';

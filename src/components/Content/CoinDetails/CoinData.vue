@@ -2,7 +2,7 @@
   import { ref, onMounted } from 'vue';
   import  { getCryptoData } from '@/api/coins/cryptoData';
   import type { CryptoDetails } from '@/api/coins/cryptoData';
-  import type { CoinDetail } from '@/interface/coinSearch.interface';
+  import type { CoinDetail } from '@/interface/coinDetail.interface';
   import { formatVolume } from '@/utils/numberFormatter';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
 

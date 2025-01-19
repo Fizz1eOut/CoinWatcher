@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { CoinDetail } from '@/interface/coinSearch.interface';
+import type { CoinDetail } from '@/interface/coinDetail.interface';
 
 export const useBriefcaseStore = defineStore('briefcase', {
   state: () => ({

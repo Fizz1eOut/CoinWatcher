@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { CoinDetail } from '@/interface/coinSearch.interface';
+  import type { CoinDetail } from '@/interface/coinDetail.interface';
   import CoinSidebar from '@/components/Content/CoinDetails/CoinSidebar.vue';
   import CoinOverview from '@/components/Content/CoinDetails/CoinOverview.vue';
   import CoinDetailsChart from '@/components/Content/CoinDetails/CoinDetailsChart.vue';

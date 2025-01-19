@@ -1,4 +1,4 @@
-export interface SeacrchData {
+export interface SeacrchDetail {
   USD: {
     PRICE: number; // Цена
     MKTCAP: string; // Рыночная капитализация
@@ -9,9 +9,9 @@ export interface SeacrchData {
 }
 
 // Интерфейс описывает ответ от API, содержащий данные о криптовалюте
-export interface CoinSearchResponse {
+export interface CoinDetailResponse {
   RAW: {
-    [key: string]: SeacrchData; // Динамические ключи (например, "BTC") с данными типа `CoinRawData`
+    [key: string]: SeacrchDetail; // Динамические ключи (например, "BTC") с данными типа `CoinRawData`
   };
 }
 
@@ -20,5 +20,5 @@ export interface CoinDetail {
   id: string;
   Name: string; // Название криптовалюты
   ImageUrl: string; // URL изображения
-  DISPLAY: SeacrchData['USD']; // Данные по USD
+  DISPLAY: SeacrchDetail['USD']; // Данные по USD
 }

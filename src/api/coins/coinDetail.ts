@@ -1,7 +1,7 @@
 import { fetchData } from '@/components/modules/http';
-import type { CoinSearchResponse } from '@/interface/coinSearch.interface';
+import type { CoinDetailResponse } from '@/interface/coinDetail.interface';
 
-export const getCoinSearch = async (coinName: string): Promise<CoinSearchResponse> => {
+export const getCoinDetail = async (coinName: string): Promise<CoinDetailResponse> => {
   const params = new URLSearchParams({
     fsyms: coinName,
     tsyms: 'USD',
@@ -9,5 +9,5 @@ export const getCoinSearch = async (coinName: string): Promise<CoinSearchRespons
   });
 
   const url = `${import.meta.env.VITE_BASE_URL}data/pricemultifull?${params.toString()}`;
-  return fetchData<CoinSearchResponse>(url);
+  return fetchData<CoinDetailResponse>(url);
 };

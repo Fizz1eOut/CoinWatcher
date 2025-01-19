@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue';
   import { useBriefcaseStore } from '@/stores/briefcaseStore';
-  import type { CoinDetail } from '@/interface/coinSearch.interface';
+  import type { CoinDetail } from '@/interface/coinDetail.interface';
   import AppImageCoin from '@/components/Base/AppImageCoin.vue';
   import AppSubtitle from '@/components/Base/AppSubtitle.vue';
   import AppContainer from '@/components/Base/AppContainer.vue';

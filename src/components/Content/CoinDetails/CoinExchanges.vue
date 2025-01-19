@@ -4,7 +4,7 @@
   import AppDropdownItem from '@/components/Base/AppDropdownItem.vue';
   import { getExchanges } from '@/api/coins/exchanges';
   import type { ExchangeData } from '@/interface/exchanges.interface';
-  import type { CoinDetail } from '@/interface/coinSearch.interface';
+  import type { CoinDetail } from '@/interface/coinDetail.interface';
   import AppButton from '@/components/Base/AppButton.vue';
   import AppImageCoin from '@/components/Base/AppImageCoin.vue';
   import AppIcon from '@/components/Base/AppIcon.vue';
