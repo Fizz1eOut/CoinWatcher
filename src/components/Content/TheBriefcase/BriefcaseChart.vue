@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import { ref, onMounted, computed, watch } from 'vue';
-  import { getTopCoins } from '@/api/coins/topCoins';
   import { getHistoricalMarketCaps } from '@/api/coins/marketCaps';
-  import type { TopCoin } from '@/interface/topCoins.interface';
   import type { MarketCapEntry } from '@/interface/marketCaps.interface';
   import MarketOverviewChart from '@/components/Content/MarketOverviewChart.vue';
   import AppButton from '@/components/Base/AppButton.vue';
@@ -15,29 +13,26 @@
 
   const briefcaseStore = useBriefcaseStore();
   const briefcase = computed(() => briefcaseStore.briefcase);
-  const marketData = ref<TopCoin[]>([]);
   const historicalData = ref<MarketCapEntry[]>([]);
   const isLoading = ref<boolean>(true);
   const error = ref<string | null>(null);
   const selectedTimeRange = ref<TimeRange>('1m');
 
-  // Возможные диапазоны
+  // Возможные диапазоны  
   const timeRanges: TimeRange[] = ['1d', '7d', '1m'];
 
   // Получение данных при загрузке компонента
   const fetchMarketOverview = async () => {
-    if (briefcase.value.length === 0) return;
+    if (briefcase.value.length === 0) {
+      historicalData.value = [];
+      return;
+    }
 
+    isLoading.value = true;
     try {
-      const data = (await getTopCoins());
-      marketData.value = data.Data.slice(0, 10);
-
-      // Извлечение символов криптовалют
-      // const symbols = marketData.value.map((coin) => coin.CoinInfo.Name);
       const symbols = briefcase.value.map((coin) => coin.Name);
-
-      // Получение исторических данных по этим символам
       historicalData.value = await getHistoricalMarketCaps(symbols, selectedTimeRange.value);
+      error.value = null;
     } catch (err) {
       error.value = 'Failed to load market data';
       console.error(err);
@@ -53,21 +48,7 @@
 
   onMounted(fetchMarketOverview);
 
-  watch(
-    selectedTimeRange,
-    async (newRange) => {
-      isLoading.value = true;
-      try {
-        const symbols = briefcase.value.map((coin) => coin.Name);
-        historicalData.value = await getHistoricalMarketCaps(symbols, newRange); // Обновляем данные
-      } catch (err) {
-        error.value = 'Failed to load market data';
-        console.error(err);
-      } finally {
-        isLoading.value = false;
-      }
-    }
-  );
+  watch([selectedTimeRange, briefcase], fetchMarketOverview);
 </script>
 
 <template>
@@ -77,7 +58,7 @@
       class="loader" 
       size="70px"
       borderWidth="7px"
-      height="100vh" 
+      height="100px" 
     />
     <div class="briefcase-chart" v-else>
       <app-title>
