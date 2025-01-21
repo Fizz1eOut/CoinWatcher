@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, watch } from 'vue';
   import  { getCryptoData } from '@/api/coins/cryptoData';
   import type { CryptoDetails } from '@/api/coins/cryptoData';
   import type { CoinDetail } from '@/interface/coinDetail.interface';
@@ -33,6 +33,15 @@
   onMounted(async () => {
     await fetchCoinDetails();
   });
+
+  watch(
+    () => props.coin,
+    async (newCoin, oldCoin) => {
+      if (newCoin.Name !== oldCoin.Name) {
+        await fetchCoinDetails();
+      }
+    }
+  );
 </script>
 
 <template>

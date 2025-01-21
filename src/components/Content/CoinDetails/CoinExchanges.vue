@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, watch } from 'vue';
   import AppDropdown from '@/components/Base/AppDropdown.vue';
   import AppDropdownItem from '@/components/Base/AppDropdownItem.vue';
   import { getExchanges } from '@/api/coins/exchanges';
@@ -58,6 +58,15 @@
       console.warn('No URL provided for this exchange.');
     }
   };
+
+  watch(
+    () => props.coin,
+    async (newCoin, oldCoin) => {
+      if (newCoin.Name !== oldCoin.Name) {
+        await loadExchanges();
+      }
+    }
+  );
 </script>
 
 <template>

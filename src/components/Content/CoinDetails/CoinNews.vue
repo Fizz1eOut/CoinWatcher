@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue';
+  import { onMounted, ref, watch } from 'vue';
   import { getNews } from '@/api/coins/news';
   import type { NewsItem } from '@/interface/news.interface';
   import type { CoinDetail } from '@/interface/coinDetail.interface';
@@ -28,6 +28,16 @@
   onMounted(() => {
     fetchNews(props.coin.Name);
   });
+
+  watch(
+    () => props.coin,
+    async (newCoin, oldCoin) => {
+      if (newCoin.Name !== oldCoin.Name) {
+        isLoading.value = true;
+        await fetchNews(newCoin.Name);
+      }
+    }
+  );
 </script>
 
 <template>

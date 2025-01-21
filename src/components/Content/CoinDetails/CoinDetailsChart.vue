@@ -64,6 +64,16 @@
       }
     }
   );
+
+  watch(
+    () => props.coin,
+    async (newCoin, oldCoin) => {
+      if (newCoin?.Name !== oldCoin?.Name) {
+        isLoading.value = true;
+        await fetchMarketOverview();
+      }
+    }
+  );
 </script>
 
 <template>

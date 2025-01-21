@@ -51,7 +51,7 @@
   .suggestions {
     position: relative;
   }
-  .suggestio__list {
+  .suggestion__list {
     width: 100%;
     height: 200px;
     overflow: auto;
