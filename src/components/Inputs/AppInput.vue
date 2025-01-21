@@ -2,10 +2,11 @@
   import { computed } from 'vue';
 
   // Определение props
-  const props = defineProps<{
-    placeholder: string;
-    modelValue: string | number;
-  }>();
+  interface SearchInputProps {
+    modelValue: string;
+    placeholder?: string;
+  }
+  const props = defineProps<SearchInputProps>();
 
   // Определение emit событий
   const emit = defineEmits(['update:modelValue']);

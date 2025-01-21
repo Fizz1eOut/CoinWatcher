@@ -2,15 +2,14 @@
   import { ref } from 'vue';
   import AppContainer from '@/components/Base/AppContainer.vue';
   import AppBriefcase from '@/components/Base/AppBriefcase.vue';
-  import AppInput from '@/components/Inputs/AppInput.vue';
   import AppNav from '@/components/Base/AppNav.vue';
   import AppNavMobile from '@/components/Base/AppNavMobile.vue';
   import AppBurger from '@/components/Base/AppBurger.vue';
+  import SearchWrapper from '@/components/Content/SearchInput/SearchWrapper.vue';
   import { useMediaQuery } from '@/composables/useMediaQuery';
 
   const open = ref<boolean>(false);
   const { isMobile } = useMediaQuery('(max-width: 768px)');
-  const text = ref<string | number>('');
 
   const closeBurger = (): void => {
     open.value = false;
@@ -43,7 +42,7 @@
 
         <div class="header__group">
           <div class="header__input">
-            <app-input placeholder="BTC" v-model="text" />
+            <search-wrapper />
           </div>
           <div class="header__briefcase briefcase">
             <router-link to="/briefcase">
