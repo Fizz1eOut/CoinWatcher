@@ -77,38 +77,6 @@
           </div>
 
           <div class="nav-mobile__item">
-            <router-link to="/converter" @click="close">
-              <div class="nav-mobile__row">
-                <app-icon 
-                  name="converter" 
-                  size="24px" 
-                  style="color: var(--color-white)"
-                  class="icon" 
-                />
-                <app-link class="nav-mobile__link">
-                  Converter
-                </app-link>
-              </div>
-            </router-link>
-          </div>
-
-          <div class="nav-mobile__item">
-            <router-link to="/comparison" @click="close">
-              <div class="nav-mobile__row">
-                <app-icon 
-                  name="comparison" 
-                  size="24px" 
-                  style="color: var(--color-white)"
-                  class="icon" 
-                />
-                <app-link class="nav-mobile__link">
-                  Comparison
-                </app-link>
-              </div>
-            </router-link>
-          </div>
-
-          <div class="nav-mobile__item">
             <router-link to="/news" @click="close">
               <div class="nav-mobile__row">
                 <app-icon 
@@ -144,6 +112,7 @@
     display: flex;
     align-items: center;
     gap: 20px;
+    width: 164px;
   }
   .nav-mobile__row .nav-mobile__link {
     font-size: 20px;
@@ -172,6 +141,9 @@
     transform-origin: left;
     transition: transform 0.4s ease-in-out;
   }
+  .router-link-active .icon {
+    color: #459bc0 !important;
+  }
   @media (max-width: 768px) {
     .nav-modile {
       position: fixed;
@@ -183,14 +155,17 @@
       z-index: 9;
       box-shadow: 4px 0 9px -7px rgba(0,0,0, 0.8);
       background-color: var(--color-underlay);
-      overflow-x: hidden;
-      overflow-y: auto;
     }
     .nav-mobile__body {
-      margin-top: 80px;
+      /* margin-top: 120px; */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
     .nav-mobile__body >*:not(:last-child) {
-      margin-bottom: 20px;
+      margin-bottom: 40px;
     }
 
     .v-enter-active,
