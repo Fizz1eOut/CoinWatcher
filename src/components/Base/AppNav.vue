@@ -22,9 +22,9 @@
       </div>
 
       <div class="nav__item">
-        <router-link to="/comparison">
+        <router-link to="/exchangers">
           <app-link>
-            Comparison
+            Exchangers
           </app-link>
         </router-link>
       </div>

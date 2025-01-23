@@ -35,22 +35,6 @@
         </div>
 
         <div class="footer-nav__item">
-          <router-link to="/converter">
-            <app-link>
-              Converter
-            </app-link>
-          </router-link>
-        </div>
-
-        <div class="footer-nav__item">
-          <router-link to="/comparison">
-            <app-link>
-              Comparison
-            </app-link>
-          </router-link>
-        </div>
-
-        <div class="footer-nav__item">
           <router-link to="/news">
             <app-link>
               News
@@ -69,6 +53,7 @@
   .footer-nav {
     display: flex;
     justify-content: center;
+    margin-top: 20px;
   }
   .footer-nav__body {
     display: flex;
