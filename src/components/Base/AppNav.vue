@@ -22,22 +22,6 @@
       </div>
 
       <div class="nav__item">
-        <router-link to="/exchangers">
-          <app-link>
-            Exchangers
-          </app-link>
-        </router-link>
-      </div>
-
-      <div class="nav__item">
-        <router-link to="/converter">
-          <app-link>
-            Converter
-          </app-link>
-        </router-link>
-      </div>
-
-      <div class="nav__item">
         <router-link to="/comparison">
           <app-link>
             Comparison
