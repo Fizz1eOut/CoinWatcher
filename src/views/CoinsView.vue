@@ -53,7 +53,7 @@
     height="100vh" 
   />
   <div v-else>
-    <crypto-table :topCoins="paginatedCoins" />
+    <crypto-table :topCoins="paginatedCoins" :showLink="false" />
     <app-pagination
       :total-items="topCoins.length"
       :items-per-page="itemsPerPage"

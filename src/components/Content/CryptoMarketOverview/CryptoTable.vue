@@ -11,6 +11,7 @@
   // Интерфейс для пропсов
   interface CryptoTableProps {
     topCoins: TopCoin[];
+    showLink: boolean;
   }
 
   const props = defineProps<CryptoTableProps>();
@@ -151,7 +152,7 @@
       <app-title>
         <slot name="header">Top 10 Cryptocurrencies</slot>
       </app-title>
-      <router-link to="/coins">
+      <router-link v-if="showLink" to="/coins">
         <app-link>View all</app-link>
       </router-link>
     </div>

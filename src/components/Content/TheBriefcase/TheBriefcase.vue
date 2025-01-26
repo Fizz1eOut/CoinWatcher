@@ -38,7 +38,7 @@
     <app-subtitle v-else>No coins in your portfolio yet.</app-subtitle>
     <div v-if="briefcase.length > 0" class="briefcase__body">
       <briefcase-chart :briefcase="briefcase" />
-      <crypto-table :topCoins="formattedBriefcase">
+      <crypto-table :topCoins="formattedBriefcase" showLink>
         <template #header>
           Cryptocurrencies in Your Portfolio
         </template>
