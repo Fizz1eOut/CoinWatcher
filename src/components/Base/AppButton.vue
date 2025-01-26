@@ -111,6 +111,7 @@
 
   .button-disabled {
     background: var(--color-gray);
+    border-radius: 25px;
     opacity: 0.3;
     transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out;
     cursor: not-allowed;
@@ -118,6 +119,13 @@
   .button-disabled:hover {
     opacity: 0.4;
     background: var(--color-gray);
+  }
+  .button-outline.button-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .button-outline.button-disabled::before {
+    display: none;
   }
   @media (max-width: 499px) {
     .button-outline,
