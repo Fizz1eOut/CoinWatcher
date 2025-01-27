@@ -40,7 +40,7 @@
   });
 
   onMounted(() => {
-    fetchCoins(1);
+    fetchCoins(0);
   });
 </script>
 

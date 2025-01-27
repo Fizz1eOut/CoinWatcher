@@ -1,7 +1,7 @@
 import { fetchData } from '@/components/modules/http';
 import type { TopCoinsResponse } from '@/interface/topCoins.interface';
 
-export const getTopCoins = async (page: number = 1, limit: number = 100) => {
+export const getTopCoins = async (page: number = 0, limit: number = 100) => {
   const params = new URLSearchParams({
     limit: limit.toString(),
     page: page.toString(),
