@@ -91,7 +91,7 @@
     <trending-coins-list v-bind="trendingCoins" />
     <crypto-table :topCoins="topCoins" showLink />
     <crypto-chart :topCoins="topCoins" />
-    <crypto-exchanges :exchanges="exchanges" />
+    <crypto-exchanges :exchanges="exchanges" showLink />
     <crypto-news :news="news" />
   </div>
 </template>

@@ -9,6 +9,7 @@
   // Пропсы для передачи данных о биржах
   interface CryptoExchangesProps {
     exchanges: ExchangeData[];
+    showLink: boolean;
   }
 
   const props = defineProps<CryptoExchangesProps>();
@@ -148,8 +149,10 @@
 <template>
   <div v-if="exchanges.length > 0" class="exchanges">
     <div class="exchanges__header">
-      <app-title>Top 10 Exchanges</app-title>
-      <router-link to="/exchangers">
+      <app-title>
+        <slot name="header">Top 10 Exchanges</slot>
+      </app-title>
+      <router-link v-if="showLink" to="/exchangers">
         <app-link>View all</app-link>
       </router-link>
     </div>
