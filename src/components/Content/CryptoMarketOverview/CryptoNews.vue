@@ -10,6 +10,7 @@
   // Принимаем массив новостей в пропсах
   const props = defineProps<{
     news: NewsItem[];
+    showLink: boolean;
   }>();
 
   const formattedDates = computed(() => {
@@ -43,7 +44,7 @@
   <div v-if="news.length > 0" class="crypto-news">
     <div class="crypto-news__header">
       <app-title>Latest Crypto News</app-title>
-      <router-link to="/news">
+      <router-link v-if="showLink" to="/news">
         <app-link>View all</app-link>
       </router-link>
     </div>

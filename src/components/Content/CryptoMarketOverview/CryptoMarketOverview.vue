@@ -92,6 +92,6 @@
     <crypto-table :topCoins="topCoins" showLink />
     <crypto-chart :topCoins="topCoins" />
     <crypto-exchanges :exchanges="exchanges" showLink />
-    <crypto-news :news="news" />
+    <crypto-news :news="news" showLink />
   </div>
 </template>
