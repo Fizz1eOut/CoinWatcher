@@ -48,7 +48,7 @@
     borderWidth="7px"
     height="100vh" 
   />
-  <crypto-news v-else :news="news" />
+  <crypto-news v-else :news="news" showLink />
 </template>
 
 <style scoped>

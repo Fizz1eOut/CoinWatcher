@@ -18,9 +18,11 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@vueform/multiselect": "^2.6.11",
     "apexcharts": "^4.1.0",
     "pinia": "^2.2.6",
     "vue": "^3.5.12",
+    "vue-multiselect": "^3.2.0",
     "vue-router": "^4.4.5",
     "vue3-apexcharts": "^1.8.0"
   },

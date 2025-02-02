@@ -18,7 +18,8 @@
       ],
     },
     "types": [
-      "vitest"
+      "vitest",
+      "@vueform/multiselect"
     ]
   }
 }
