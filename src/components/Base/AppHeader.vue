@@ -6,6 +6,7 @@
   import AppNavMobile from '@/components/Base/AppNavMobile.vue';
   import AppBurger from '@/components/Base/AppBurger.vue';
   import SearchWrapper from '@/components/Content/SearchInput/SearchWrapper.vue';
+  import AuthModal from '@/components/Content/form/AuthModal.vue';
   import { useMediaQuery } from '@/composables/useMediaQuery';
 
   const open = ref<boolean>(false);
@@ -49,6 +50,10 @@
               <app-briefcase />
             </router-link>
           </div>
+          
+          <div class="header__auth">
+            <auth-modal />
+          </div>
         </div>
       </div>
     </app-container>
@@ -80,7 +85,7 @@
     min-width: 220px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     z-index: 8;
   }
   .header__input {
