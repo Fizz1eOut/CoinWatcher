@@ -3,6 +3,7 @@
   import AppContainer from '@/components/Base/AppContainer.vue';
   import AppIcon from '@/components/Base/AppIcon.vue';
   import AppBriefcase from '@/components/Base/AppBriefcase.vue';
+  import AuthModal from '@/components/Content/form/AuthModal.vue';
 
   interface NavMobileProps {
     open: boolean;
@@ -101,12 +102,20 @@
               </div>
             </router-link>
           </div>
+          <div class="nav-mobile__item">
+            <auth-modal class="nav-mobile__auth" />
+          </div>
         </div>
       </app-container>
     </nav>
   </Transition>
 </template>
 
+<style>
+  .nav-mobile__auth .button {
+    font-size: 20px;
+  }
+</style>
 <style scoped>
   .nav-mobile__row {
     display: flex;

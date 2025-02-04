@@ -95,5 +95,8 @@
     .header__group  {
       z-index: 9;
     }
+    .header__auth {
+      display: none;
+    }
   }
 </style>
