@@ -18,8 +18,12 @@
   const { value: password, errorMessage: passwordError } = useField('password', undefined, { initialValue: '' });
   const { value: confirmPassword, errorMessage: confirmPasswordError } = useField('confirmPassword', undefined, { initialValue: '' });
 
+  const emit = defineEmits(['close', 'showError']);
+
   const onSubmit = handleSubmit((values) => {
     console.log('Register:', values);
+    emit('close');
+    emit('showError', 'Registration is temporarily unavailable. Please try again later.');
   });
 </script>
 

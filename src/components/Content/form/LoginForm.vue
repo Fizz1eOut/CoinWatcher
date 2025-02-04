@@ -13,8 +13,12 @@
   const { value: email, errorMessage: emailError } = useField<string>('email', undefined, { initialValue: '' });
   const { value: password, errorMessage: passwordError } = useField<string>('password', undefined, { initialValue: '' });
 
+  const emit = defineEmits(['close', 'showError']);
+
   const onSubmit = handleSubmit((values) => {
     console.log('Login:', values);
+    emit('close');
+    emit('showError', 'Login is temporarily unavailable. Please try again later.');
   });
 </script>
 
