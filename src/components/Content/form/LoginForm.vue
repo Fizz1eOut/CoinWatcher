@@ -1,8 +1,10 @@
 <script setup lang="ts">
+  import { ref } from 'vue';
   import { useForm, useField } from 'vee-validate';
   import * as yup from 'yup';
   import AppInput from '@/components/Inputs/AppInput.vue';
   import AppButton from '@/components/Base/AppButton.vue';
+  import AppIcon from '@/components/Base/AppIcon.vue';
 
   const validationSchema = yup.object({
     email: yup.string().required('Enter your email').email('Invalid email address'),
@@ -20,6 +22,13 @@
     emit('close');
     emit('showError', 'Login is temporarily unavailable. Please try again later.');
   });
+
+  const showPassword = ref(false);
+  const togglePasswordVisibility = (field: 'password' | 'confirmPassword') => {
+    if (field === 'password') {
+      showPassword.value = !showPassword.value;
+    }
+  };
 </script>
 
 <template>
@@ -36,10 +45,17 @@
     <div class="form__item">
       <app-input 
         v-model="password" 
-        type="password" 
+        :type="showPassword ? 'text' : 'password'" 
         placeholder="Password"
         :class="{ 'has-error': passwordError }"
       />
+      <app-button class="toggle-password" @click="togglePasswordVisibility('password')">
+        <app-icon 
+          :name="showPassword ? 'eye-off' : 'eye'"
+          size="16px" 
+          style="color: var(--color-gray)"
+        />
+      </app-button>
       <span class="error-message">{{ passwordError }}</span>
     </div>
 
@@ -70,6 +86,20 @@
   .form__button .button {
     max-width: 250px;
     width: 100%;
+  }
+  .form__item {
+    position: relative;
+  }
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 16px;
+    height: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
   }
 </style>
 
