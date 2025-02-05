@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { computed } from 'vue';
-  import AppIcon from '@/components/Base/AppIcon.vue';
 
   // Определение props
   interface SearchInputProps {
@@ -27,12 +26,9 @@
 
 <template>
   <div class="input-wrapper">
-    <app-icon 
-      size="16px" 
-      style="color: var(--color-gray)"
-      name="search" 
-      class="icon-input" 
-    />
+    <div class="icon-wrapper">
+      <slot name="icon"></slot>
+    </div>
     <input 
       v-model="inputValue"
       type="text" 
@@ -48,11 +44,13 @@
   .input-wrapper {
     position: relative;
   }
-  .icon-input {
+  .icon-wrapper {
     position: absolute;
     top: 50%;
     left: 10px;
     transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
   }
   .input {
     width: 100%;

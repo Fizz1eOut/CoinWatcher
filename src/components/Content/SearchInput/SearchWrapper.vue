@@ -6,6 +6,7 @@
   import { useRouter } from 'vue-router';
   import AppInput from '@/components/Inputs/AppInput.vue';
   import SearchSuggestion from '@/components/Content/SearchInput/SearchSuggestion.vue';
+  import AppIcon from '@/components/Base/AppIcon.vue';
 
   const search = ref<string>('');
   const isLoading = ref(false);
@@ -73,7 +74,16 @@
       v-model="search"
       @update:modelValue="handleInput"
       @focus="isDropdownActive = true"
-    />
+    >
+      <template #icon>
+        <app-icon 
+          size="16px" 
+          style="color: var(--color-gray)"
+          name="search" 
+          class="icon-input" 
+        />
+      </template>
+    </app-input>
     <search-suggestion
       v-if="suggestions.length > 0"
       :isLoading="isLoading"
