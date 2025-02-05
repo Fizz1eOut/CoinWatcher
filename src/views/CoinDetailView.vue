@@ -5,6 +5,7 @@
   import type { CoinDetail } from '@/interface/coinDetail.interface';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
   import CoinDetails from '@/components/Content/CoinDetails/CoinDetails.vue';
+  import AppBreadcrumbs from '@/components/Base/AppBreadcrumbs.vue';
 
   interface CoinDetailProps {
     name: string;
@@ -56,5 +57,8 @@
     borderWidth="7px"
     height="100vh" 
   />
-  <coin-details v-else :coin="coin"/>
+  <div v-else>
+    <app-breadcrumbs :coinName="coin?.Name" />
+    <coin-details  :coin="coin"/>
+  </div>
 </template>

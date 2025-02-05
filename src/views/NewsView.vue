@@ -11,6 +11,7 @@
   import type { NewsFeed } from '@/api/coins/feeds';
   import type { NewsItem } from '@/interface/news.interface';
   import type { TopCoin } from '@/interface/topCoins.interface';
+  import AppBreadcrumbs from '@/components/Base/AppBreadcrumbs.vue';
   
   const router = useRouter();
   const route = useRoute();
@@ -109,6 +110,8 @@
     height="100vh" 
   />
   <div v-else>
+    <app-breadcrumbs />
+
     <news-filters 
       v-model:selectedCryptos="selectedCryptos" 
       v-model:selectedFeeds="selectedFeeds" 

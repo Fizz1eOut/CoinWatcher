@@ -5,6 +5,7 @@
   import CryptoExchanges from '@/components/Content/CryptoMarketOverview/CryptoExchanges.vue';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
   import AppPagination from '@/components/Base/AppPagination.vue';
+  import AppBreadcrumbs from '@/components/Base/AppBreadcrumbs.vue';
 
   const isLoading = ref(true);
   const exchanges = ref<ExchangeData[]>([]);
@@ -42,6 +43,8 @@
     height="100vh" 
   />
   <div v-else>
+    <app-breadcrumbs />
+
     <crypto-exchanges :exchanges="paginatedExchanges" :showLink="false" >
       <template #header>
         <div>All Exchanges in One Place</div>

@@ -5,6 +5,7 @@
   import CryptoTable from '@/components/Content/CryptoMarketOverview/CryptoTable.vue';
   import AppLoadingSpinner from '@/components/Base/AppLoadingSpinner.vue';
   import AppPagination from '@/components/Base/AppPagination.vue';
+  import AppBreadcrumbs from '@/components/Base/AppBreadcrumbs.vue';
 
   const isLoading = ref(true);
   const topCoins = ref<TopCoin[]>([]);
@@ -53,6 +54,8 @@
     height="100vh" 
   />
   <div v-else>
+    <app-breadcrumbs />
+
     <crypto-table :topCoins="paginatedCoins" :showLink="false">
       <template #header>
         <h1>All Cryptocurrencies in One Place</h1>

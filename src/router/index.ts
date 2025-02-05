@@ -19,12 +19,12 @@ const scrollBehavior: RouterScrollBehavior = (to, from, savedPosition) => {
 const router = createRouter({
   history: createWebHashHistory('/CoinWatcher'),
   routes: [
-    { path: '/', name: 'home', component: HomeView },
-    { path: '/coins', name: 'coins', component: CoinsView },
-    { path: '/exchangers', name: 'exchangers', component: ExchangersView },
-    { path: '/news', name: 'news', component: NewsView },
-    { path: '/coin/:name', component: CoinDetailView, name: 'CoinDetailView', props: true },
-    { path: '/briefcase', name: 'briefcase', component: BriefcaseView },
+    { path: '/', name: 'home', component: HomeView, meta: { title: 'Home' } },
+    { path: '/coins', name: 'coins', component: CoinsView, meta: { title: 'Coins' } },
+    { path: '/exchangers', name: 'exchangers', component: ExchangersView, meta: { title: 'Exchangers' } },
+    { path: '/news', name: 'news', component: NewsView, meta: { title: 'News' } },
+    { path: '/coin/:name', component: CoinDetailView, name: 'CoinDetailView', props: true, },
+    { path: '/briefcase', name: 'briefcase', component: BriefcaseView, meta: { title: 'Briefcase' } },
   ],
   scrollBehavior,
 });
