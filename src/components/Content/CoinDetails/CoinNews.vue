@@ -30,11 +30,11 @@
   });
 
   watch(
-    () => props.coin,
-    async (newCoin, oldCoin) => {
-      if (newCoin.Name !== oldCoin.Name) {
+    () => props.coin.Name,
+    async (newName, oldName) => {
+      if (newName && newName !== oldName) {
         isLoading.value = true;
-        await fetchNews(newCoin.Name);
+        await fetchNews(newName);
       }
     }
   );
