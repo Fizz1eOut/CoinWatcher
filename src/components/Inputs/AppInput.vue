@@ -5,6 +5,7 @@
   interface SearchInputProps {
     modelValue: string;
     placeholder?: string;
+    type?: string;
   }
   const props = defineProps<SearchInputProps>();
 
@@ -31,7 +32,7 @@
     </div>
     <input 
       v-model="inputValue"
-      type="text" 
+      :type="type || 'text'"
       class="input" 
       :placeholder="placeholder"
       @input="handleInput"
